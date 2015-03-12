@@ -9,5 +9,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="An Adventure to Remember/lib/natives"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/SST.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
