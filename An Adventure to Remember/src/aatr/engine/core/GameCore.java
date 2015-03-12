@@ -1,12 +1,15 @@
-package aatr.game;
+package aatr.engine.core;
 
 import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gfx.Window;
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
+import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.util.Time;
 
 public abstract class GameCore {
 	
 	private GameStateManager gsm;
+	private TextureLibrary tl;
 	
 	private String default_title;
 	private float default_width;
@@ -26,13 +29,16 @@ public abstract class GameCore {
 			e.printStackTrace();
 		}
 		
+		tl = new TextureLibrary();
+		registerTextures(tl);
+		
 		gsm = new GameStateManager(this);
 		
 		while(Window.isRunning())
 			loop();
 		
-		Window.destroy();
 		
+		destroy();
 	}
 	
 	private void loop() {
@@ -41,6 +47,17 @@ public abstract class GameCore {
 		Window.setTitle(default_title + " - FPS: " + Time.getFPS());
 	}
 	
-	public abstract GameCore registerGameStates(GameStateManager gsm);
+	public abstract void registerTextures(TextureLibrary texLib);
+	public abstract void registerGameStates(GameStateManager gsm);
 	
+	private void destroy() {
+		//Destroying objects
+		gsm.destroy();
+		
+		//Destroying shaders
+		OrthographicShaderProgram.INSTANCE.destroy();
+		
+		TextureLibrary.destroy();
+		Window.destroy();
+	}
 }

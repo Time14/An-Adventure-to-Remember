@@ -1,4 +1,4 @@
-package com.idek.gfx;
+package aatr.engine.gfx.texture;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
@@ -14,42 +14,22 @@ import java.awt.image.BufferedImage;
 import java.security.InvalidParameterException;
 
 import aatr.engine.gfx.shader.ShaderProgram;
-import aatr.engine.gfx.shader.ShaderProgram3D;
-
-import com.idek.gfx.camera.Camera;
-import com.idek.util.Loader;
-import com.idek.util.Util;
+import aatr.engine.util.Loader;
+import aatr.engine.util.Util;
 
 public class Texture {
 	
-	public static final ShaderProgram DEFAULT_SHADER_PROGRAM = Camera.DEFAULT_SHADER_PROGRAM;
-	
-	protected ShaderProgram program = DEFAULT_SHADER_PROGRAM;
-	
-	protected int id  	= -2;
+	protected int id  		= -2;
 	protected int width  	= -2;
-	protected int height  = -2;
+	protected int height 	= -2;
 	
 	public Texture() {}
 	
-	public Texture(ShaderProgram program) {
-		this.program = program;
-	}
-	
 	public Texture(String path) {
-		this(path, true);
-	}
-	
-	public Texture(ShaderProgram program, String path) {
-		this(program, path, true);
+		this(path, false);
 	}
 	
 	public Texture(String path, boolean repeat) {
-		loadTexture(path, repeat);
-	}
-	
-	public Texture(ShaderProgram program, String path, boolean repeat) {
-		this.program = program;
 		loadTexture(path, repeat);
 	}
 	
@@ -91,6 +71,8 @@ public class Texture {
 		
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, Util.toIntBuffer(pixels));
 		
+		System.out.println("Generated new texture with ID: " + id);
+		
 		return this;
 	}
 	
@@ -116,10 +98,6 @@ public class Texture {
 		return this;
 	}
 	
-	public void cleanUp() {
-		glDeleteTextures(id);
-	}
-	
 	public static final void unbindAll() {
 		for(int i = 0; i < 32; i++)
 			unbind(i);
@@ -137,5 +115,10 @@ public class Texture {
 		
 		glActiveTexture(GL_TEXTURE0 + target);
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	public void destroy() {
+		glDeleteTextures(id);
+		System.out.println("Destroyed texture with ID: " + id);
 	}
 }

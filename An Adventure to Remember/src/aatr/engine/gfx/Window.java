@@ -54,6 +54,10 @@ public final class Window {
 		Display.create();
 		running = true;
 		enableVSync(vsync);
+		
+		//OpenGL Initialization
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 	
 	public static final String getTitle() {

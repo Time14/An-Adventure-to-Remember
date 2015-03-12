@@ -234,8 +234,9 @@ public abstract class ShaderProgram {
 		return this;
 	}
 	
-	public void cleanUp() {
+	public void destroy() {
 		glDeleteProgram(id);
+		System.out.println("Destroyed program with ID: " + id);
 	}
 	
 	public static final int currentlyBoundID() {

@@ -2,17 +2,19 @@ package aatr.engine.world;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
-import aatr.engine.gfx.shader.OrthographicalShaderProgram;
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
+import aatr.engine.gfx.texture.*;
 
 public class Entity {
 	
 	private Mesh mesh;
+	
+	private Texture texture = TextureLibrary.DEFAULT_TEXTURE;
 	
 	private Transform transform;
 	
@@ -27,14 +29,30 @@ public class Entity {
 		this(gs, mesh, new Transform());
 	}
 	
+	public Entity(GameState gs, Mesh mesh, Texture texture) {
+		this(gs, mesh, texture, new Transform());
+	}
+	
 	public Entity(GameState gs, Mesh mesh, Transform transform) {
 		this.gs = gs;
 		this.mesh = mesh;
 		this.transform = transform;
 	}
 	
+	public Entity(GameState gs, Mesh mesh, Texture texture, Transform transform) {
+		this.gs = gs;
+		this.mesh = mesh;
+		this.transform = transform;
+		this.texture = texture;
+	}
+	
 	public Entity sendMesh(Mesh mesh) {
 		this.mesh = mesh;
+		return this;
+	}
+	
+	public Entity sendTexture(Texture texture) {
+		this.texture = texture;
 		return this;
 	}
 	
@@ -59,9 +77,10 @@ public class Entity {
 	}
 	
 	public void draw() {
-		OrthographicalShaderProgram.INSTANCE.bind();
-		OrthographicalShaderProgram.INSTANCE.sendMatrix("m_transform", transform.getMatrix());
-		OrthographicalShaderProgram.INSTANCE.sendMatrix("m_view", (Matrix4f)new Matrix4f().setIdentity());
+		texture.bind();
+		OrthographicShaderProgram.INSTANCE.bind();
+		OrthographicShaderProgram.INSTANCE.sendMatrix("m_transform", transform.getMatrix());
+		OrthographicShaderProgram.INSTANCE.sendMatrix("m_view", (Matrix4f)new Matrix4f().setIdentity());
 		mesh.draw();
 	}
 	

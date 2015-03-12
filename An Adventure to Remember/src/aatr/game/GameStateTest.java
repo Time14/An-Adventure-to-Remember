@@ -7,6 +7,7 @@ import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gfx.Window;
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Vertex;
+import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.Entity;
 import aatr.engine.world.EntityManager;
 import aatr.engine.world.EntityQuad;
@@ -25,13 +26,15 @@ public class GameStateTest extends GameState {
 	public void init() {
 		em = new EntityManager(this);
 		
-		em.addGroup("Boxes");
+		em.addEntity("Test", new EntityQuad(this, 0, 0, 400, 300, TextureLibrary.getTexture("Place Holder")));
 		
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 10; j++) {
-				em.addToGroup("Boxes", new EntityQuad(this, j * 80, i * 60, 80, 60));
-			}
-		}
+//		em.addGroup("Boxes");
+//		
+//		for(int i = 0; i < 10; i++) {
+//			for(int j = 0; j < 10; j++) {
+//				em.addToGroup("Boxes", new EntityQuad(this, j * 80, i * 60, 80, 60));
+//			}
+//		}
 		
 	}
 	

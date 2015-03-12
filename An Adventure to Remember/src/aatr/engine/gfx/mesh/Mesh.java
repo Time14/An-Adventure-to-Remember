@@ -6,8 +6,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL21.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
-
-import aatr.engine.gfx.shader.OrthographicalShaderProgram;
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.util.Util;
 
 public class Mesh {
@@ -43,7 +42,9 @@ public class Mesh {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, Util.toFloatBuffer(vertices), GL_STATIC_DRAW);
 		
-		OrthographicalShaderProgram.INSTANCE.initAttributes();
+		OrthographicShaderProgram.INSTANCE.initAttributes();
+		
+		System.out.println("Created new mesh! VAO: " + vao + ", VBO: " + vbo);
 	}
 	
 	public void createVAO(Vertex[] vertices, int[] indices) {
@@ -63,7 +64,9 @@ public class Mesh {
 		
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, Util.toIntBuffer(indices), GL_STATIC_DRAW);
 		
-		OrthographicalShaderProgram.INSTANCE.initAttributes();
+		OrthographicShaderProgram.INSTANCE.initAttributes();
+		
+		System.out.println("Created new mesh! VAO: " + vao + ", VBO: " + vbo + ", IBO: " + ibo);
 	}
 	
 	public void draw() {
@@ -90,8 +93,13 @@ public class Mesh {
 		glDeleteVertexArrays(vao);
 		glDeleteBuffers(vbo);
 		
-		if(indices == null) {
+		System.out.print("Destroyed mesh! VAO: " + vao);
+		System.out.print(", VBO: " + vbo);
+		
+		if(indices != null) {
 			glDeleteBuffers(ibo);
+			System.out.print(",IBO: " + ibo);
 		}
+		System.out.println();
 	}
 }

@@ -7,8 +7,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import aatr.engine.core.GameCore;
 import aatr.engine.gfx.Window;
-import aatr.game.GameCore;
 
 public class GameStateManager {
 	
@@ -29,7 +29,7 @@ public class GameStateManager {
 	}
 	
 	public GameStateManager update(double tick) {
-		System.out.println(tick);
+		
 		checkMouse();
 		checkKeyboard();
 		activeState.update(tick);
@@ -78,4 +78,7 @@ public class GameStateManager {
 		return this;
 	}
 	
+	public void destroy() {
+		activeState.exit();
+	}
 }
