@@ -11,12 +11,12 @@ import aatr.engine.gfx.texture.TextureLibrary;
 
 public class EntityQuad extends Entity {
 	
-	public EntityQuad(GameState gs, float x, float y, float width, float height) {
-		this(gs, x, y, width, height, TextureLibrary.DEFAULT_TEXTURE);
+	public EntityQuad(float x, float y, float width, float height) {
+		this(x, y, width, height, TextureLibrary.DEFAULT_TEXTURE);
 	}
 	
-	public EntityQuad(GameState gs, float x, float y, float width, float height, Texture texture) {
-		super(gs, new Mesh(new Vertex[]{
+	public EntityQuad(float x, float y, float width, float height, Texture texture) {
+		super(new Mesh(new Vertex[]{
 				new Vertex(0, height, 0, 0),
 				new Vertex(width, height, 1, 0),
 				new Vertex(width, 0, 1, 1),

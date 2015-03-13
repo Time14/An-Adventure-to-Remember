@@ -18,32 +18,34 @@ public class Entity {
 	
 	private Transform transform;
 	
-	private GameState gs;
+	private EntityManager em;
 	
-	public Entity(GameState gs) {
-		this.gs = gs;
+	public Entity() {
 		transform = new Transform();
 	}
 	
-	public Entity(GameState gs, Mesh mesh) {
-		this(gs, mesh, new Transform());
+	public Entity(Mesh mesh) {
+		this(mesh, new Transform());
 	}
 	
-	public Entity(GameState gs, Mesh mesh, Texture texture) {
-		this(gs, mesh, texture, new Transform());
+	public Entity(Mesh mesh, Texture texture) {
+		this(mesh, texture, new Transform());
 	}
 	
-	public Entity(GameState gs, Mesh mesh, Transform transform) {
-		this.gs = gs;
+	public Entity(Mesh mesh, Transform transform) {
 		this.mesh = mesh;
 		this.transform = transform;
 	}
 	
-	public Entity(GameState gs, Mesh mesh, Texture texture, Transform transform) {
-		this.gs = gs;
+	public Entity(Mesh mesh, Texture texture, Transform transform) {
 		this.mesh = mesh;
 		this.transform = transform;
 		this.texture = texture;
+	}
+	
+	public Entity sendEntityManager(EntityManager em) {
+		this.em = em;
+		return this;
 	}
 	
 	public Entity sendMesh(Mesh mesh) {
@@ -71,7 +73,7 @@ public class Entity {
 		return this;
 	}
 	
-	public void update() {
+	public void update(double tick) {
 		//TODO:
 		//Transform sh!t : - D
 	}

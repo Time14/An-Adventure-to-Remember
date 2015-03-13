@@ -27,7 +27,7 @@ public class GameStateTest extends GameState {
 	public void init() {
 		em = new EntityManager(this);
 		
-		em.addEntity("Test", new EntityQuad(this, 0, 0, 400, 300));
+		em.addEntity("Test", new EntityQuad(0, 0, 400, 300));
 		
 //		em.addGroup("Boxes");
 //		
@@ -49,7 +49,7 @@ public class GameStateTest extends GameState {
 	
 	public void checkKeyboard(int key, boolean pressed) {}
 	
-	public void update(double tick) {}
+	public void update(double tick) {em.update(tick);}
 	
 	public void draw() {
 		em.draw();

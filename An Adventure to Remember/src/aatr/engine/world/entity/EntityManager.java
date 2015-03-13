@@ -18,13 +18,13 @@ public class EntityManager {
 		this.gs = gs;
 	}
 	
-	public void update() {
+	public void update(double tick) {
 		for(Entity e : entities.values()) {
-			e.update();
+			e.update(tick);
 		}
 		
 		for(Group g : groups.values()) {
-			g.update();
+			g.update(tick);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class EntityManager {
 	}
 	
 	public EntityManager addEntity(String name, Entity entity) {
-		entities.put(name, entity);
+		entities.put(name, entity.sendEntityManager(this));
 		return this;
 	}
 	
@@ -61,7 +61,7 @@ public class EntityManager {
 	
 	public EntityManager addToGroup(String group, Entity... entities) {
 		for(Entity e : entities)
-			groups.get(group).entities.add(e);
+			groups.get(group).entities.add(e.sendEntityManager(this));
 		return this;
 	}
 	
@@ -85,10 +85,10 @@ public class EntityManager {
 			entities = new ArrayList<>();
 		}
 		
-		void update() {
+		void update(double tick) {
 			if(active) {
 				for(Entity e : entities)
-					e.update();
+					e.update(tick);
 			}
 		}
 		
