@@ -1,4 +1,4 @@
-package com.idek.gfx;
+package aatr.engine.gfx.texture;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.*;
@@ -14,7 +14,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.vector.Vector4f;
 
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.gfx.shader.ShaderProgram;
+import aatr.engine.util.Util;
 
 public class RenderableTexture extends Texture {
 	
@@ -78,7 +80,8 @@ public class RenderableTexture extends Texture {
 		case GL_DEPTH_COMPONENT32: type = GL_FLOAT; break;
 		}
 		
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, program.getOutputFormat(), type, (ByteBuffer)null);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0,
+				OrthographicShaderProgram.INSTANCE.getOutputFormat(), type, (ByteBuffer)null);
 		
 		unbind();
 		

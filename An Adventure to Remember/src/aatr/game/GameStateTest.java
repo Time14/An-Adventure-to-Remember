@@ -7,10 +7,11 @@ import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gfx.Window;
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Vertex;
+import aatr.engine.gfx.texture.RenderableTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
-import aatr.engine.world.Entity;
-import aatr.engine.world.EntityManager;
-import aatr.engine.world.EntityQuad;
+import aatr.engine.world.entity.Entity;
+import aatr.engine.world.entity.EntityManager;
+import aatr.engine.world.entity.EntityQuad;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameStateTest extends GameState {
@@ -26,7 +27,7 @@ public class GameStateTest extends GameState {
 	public void init() {
 		em = new EntityManager(this);
 		
-		em.addEntity("Test", new EntityQuad(this, 0, 0, 400, 300, TextureLibrary.getTexture("Place Holder")));
+		em.addEntity("Test", new EntityQuad(this, 0, 0, 400, 300));
 		
 //		em.addGroup("Boxes");
 //		
@@ -50,7 +51,9 @@ public class GameStateTest extends GameState {
 	
 	public void update(double tick) {}
 	
-	public void draw() {em.draw();}
+	public void draw() {
+		em.draw();
+	}
 	
 	public void exit() {em.destroy();}
 }

@@ -1,4 +1,4 @@
-package aatr.engine.world;
+package aatr.engine.world.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

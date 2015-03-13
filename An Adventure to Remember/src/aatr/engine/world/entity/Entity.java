@@ -1,4 +1,4 @@
-package aatr.engine.world;
+package aatr.engine.world.entity;
 
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
