@@ -12,6 +12,7 @@ import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.entity.Entity;
 import aatr.engine.world.entity.EntityManager;
 import aatr.engine.world.entity.EntityQuad;
+import aatr.engine.world.player.Player;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameStateTest extends GameState {
@@ -24,10 +25,12 @@ public class GameStateTest extends GameState {
 	
 	private EntityManager em;
 	
+	private Player player;
+	
 	public void init() {
 		em = new EntityManager(this);
 		
-		em.addEntity("Test", new EntityQuad(0, 0, 400, 300));
+		player = new Player(this);
 		
 //		em.addGroup("Boxes");
 //		
@@ -47,12 +50,13 @@ public class GameStateTest extends GameState {
 		}
 	}
 	
-	public void checkKeyboard(int key, boolean pressed) {}
+	public void checkKeyboard(int key, boolean pressed) {player.checkKeyboard(key, pressed);}
 	
-	public void update(double tick) {em.update(tick);}
+	public void update(double tick) {em.update(tick); player.update(tick);}
 	
 	public void draw() {
 		em.draw();
+		player.draw();
 	}
 	
 	public void exit() {em.destroy();}

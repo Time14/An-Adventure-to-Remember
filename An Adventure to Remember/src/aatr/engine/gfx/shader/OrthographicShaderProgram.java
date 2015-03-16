@@ -59,7 +59,7 @@ public class OrthographicShaderProgram extends ShaderProgram {
 	}
 	
 	static {
-		initProjection(0, Window.getWidth(), 0, Window.getHeight());
+		initProjection(0, Window.getWidth(), Window.getHeight(), 0);
 	}
 	
 	public static final OrthographicShaderProgram INSTANCE = new OrthographicShaderProgram();
