@@ -1,0 +1,56 @@
+					
+					The Adventures of Paul McCartney
+
+Concept:
+	Your are 2 players who explore a vast, world where puzzles are everywhere. The puzzle world is made in a layerd manner, and based on tiles, as well as tile based movement. You need to solve them to find out who exactly you are.
+
+Gameplay:
+	/*
+	The gameplay will be filled with puzzle solving, kinda in the Legend of Zelda style. The puzzles will be varied by having power ups that change the way the character acts. This power ups will be represented by colored orbs. 
+	The puzzles are layed out in a limited manner, so that you know which puzzles are related to which tasks. Example: opening door A, means doing puzzle 1,2 and 3, se fig. 
+	
+	The following orbs exist:
+		Red orb: Gives you a red orb that can be thrown and then returns to you.
+		Blue orb: lets you toggle your weight on and off, making you press or not press buttons.
+		Yellow orb: Allows you to jump up one layer.
+		Green orb: Gives you a mirror that can reflect various things. 
+
+	Only one orb can be active at any time, meaning the power-up is overiden. 
+	The gameplay will be focused on co-op between you and your companion. Some of the puzzles include, draging boxes, avoiding traps, and solving puzzles. 
+    
+    Player A is in the future, and player B is in the past. They can affect eachothers game and change things. 
+    */
+    
+    lore: The world has been shatterd and split into two, half of of which is in the past, before a great war that cost many lives. The other one, lives after the great war, where all is collapsed and has gone to ruins. 
+    But both there is no defined "time before". 
+    
+    Both players start infront of a statue, where there is a socket for an amulet. This is also the end. 
+    The gameplay will be puzzles based on time. In the game, there are cirtain things that have cumbled in the other world, because both worlds actually happen after eachothers time. 
+    The puzzles will require smal pices of lore to be solved, so you hear of the past, from the past, but there is no real time backwards. 
+    
+    
+Message:
+	Everything doesn't need a meaning, sometimes it's the journey that matters.
+
+Market:
+	16 year old computer nerds who do nothing but play computer games.
+	
+	
+fig:
+	########################################################
+	###000000###############################################
+	###00100000000A00E######################################
+	###000000###0###########################################
+	#####0######0###########################################
+	#####0######0###########################################
+	##00000###00000#########################################
+	##0030000000200#########################################
+	##00000###00000#########################################
+	####0###################################################
+	####0###################################################
+	####E###################################################
+	########################################################
+	########################################################
+	########################################################
+	########################################################
+	########################################################

@@ -1,0 +1,18 @@
+To do:
+	Week 1:
+		Set up save system 	[D]
+		Import engine		[ ]
+		Make collision		[ ]
+	Week 2 and 3:
+		Make tile based map system [ ]
+		Make character		[ ]
+		Play test			[ ]
+	Week 4: 
+		Make puzzles		[ ]
+		And play test		[ ]
+		Polish				[ ]
+	Week 5:
+		Import art			[ ]
+	Week 6:				
+		Play test the hell out of it [ ]
+		
