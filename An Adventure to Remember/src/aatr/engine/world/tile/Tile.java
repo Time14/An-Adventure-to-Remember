@@ -2,7 +2,9 @@ package aatr.engine.world.tile;
 
 import org.lwjgl.util.vector.Vector2f;
 
-public class Tile {
+import aatr.engine.world.entity.EntityQuad;
+
+public class Tile extends EntityQuad{
 	
 	private TileSet tileSet;
 	private int id;
@@ -20,5 +22,7 @@ public class Tile {
 			throw new IllegalStateException("Invalid amount of texture coordinates (must be 4)");
 		return data;
 	}
+	
+	
 	
 }
