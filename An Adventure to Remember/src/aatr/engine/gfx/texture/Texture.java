@@ -117,6 +117,14 @@ public class Texture {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
 	public void destroy() {
 		glDeleteTextures(id);
 		System.out.println("Destroyed texture with ID: " + id);
