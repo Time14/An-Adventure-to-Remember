@@ -28,8 +28,6 @@ public class Chunk {
 	public void init() {
 		verts = new Vertex[((int)Math.pow(GRID_DIMENSIONS, 2)) * 4];
 		
-		
-		int c = 0;
 		for(int x = 0; x < tiles.length; x++) {
 			
 			for(int y = 0; y < tiles[x].length; y++) {
@@ -38,10 +36,8 @@ public class Chunk {
 				
 				for(int i = 0; i < vertHolder.length; i++) {
 					verts[(int)(x * (vertHolder.length) + i + GRID_DIMENSIONS * vertHolder.length * y)] = vertHolder[i];
-					System.out.println((int)(x * (vertHolder.length) + i + GRID_DIMENSIONS * vertHolder.length * y));
 				}
 			}
-			System.out.println();
 		}
 		
 //		for(int i = 0; i < 1024; i++)

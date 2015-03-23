@@ -58,10 +58,10 @@ public class TileSet {
 			int x = i % tilesX;
 			int y = i / tilesX;
 			
-			texCoords[i][0] = new Vector2f(x * tileSize, y * tileSize);
-			texCoords[i][1] = new Vector2f((x + 1) * tileSize, y * tileSize);
-			texCoords[i][2] = new Vector2f((x + 1) * tileSize, (y + 1) * tileSize);
-			texCoords[i][3] = new Vector2f(x * tileSize, (y + 1) * tileSize);
+			texCoords[i][0] = new Vector2f((x * tileSize)/((float)width), (y * tileSize)/((float)height));
+			texCoords[i][1] = new Vector2f(((x + 1) * tileSize)/((float)width), (y * tileSize)/((float)height));
+			texCoords[i][2] = new Vector2f(((x + 1) * tileSize)/((float)width), ((y + 1) * tileSize)/((float)height));
+			texCoords[i][3] = new Vector2f((x * tileSize)/((float)width), ((y + 1) * tileSize)/((float)height));
 		}
 	}
 	

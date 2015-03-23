@@ -20,6 +20,8 @@ public class Game extends GameCore {
 	public static final int DEFAULT_HEIGHT = 600;
 	
 	public Game() {
+		Window.enableVSync(false);
+//		Window.setFPSCap(0);
 		start(TITLE, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	
