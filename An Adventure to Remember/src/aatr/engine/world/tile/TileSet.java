@@ -49,7 +49,7 @@ public class TileSet {
 		if (tileSize != height / tilesY)
 			throw new IllegalStateException("Tiles are not quadratic, (Kill the rectangles!)");
 		
-		tilesTotal = tilesY + tilesX;
+		tilesTotal = tilesY * tilesX;
 		
 		texCoords = new Vector2f[tilesTotal][4];
 		

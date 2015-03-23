@@ -29,6 +29,28 @@ public class World {
 			}
 		}
 		
+		tileArray[0][0] = new Tile(TileSet.tileSets.get(0), 8, 0, 0);
+		tileArray[1][0] = new Tile(TileSet.tileSets.get(0), 9, 1, 0);
+		tileArray[2][0] = new Tile(TileSet.tileSets.get(0), 10, 2, 0);
+		tileArray[0][1] = new Tile(TileSet.tileSets.get(0), 16, 0, 1);
+		tileArray[1][1] = new Tile(TileSet.tileSets.get(0), 17, 1, 1);
+		tileArray[2][1] = new Tile(TileSet.tileSets.get(0), 18, 2, 1);
+		tileArray[0][2] = new Tile(TileSet.tileSets.get(0), 24, 0, 2);
+		tileArray[1][2] = new Tile(TileSet.tileSets.get(0), 25, 1, 2);
+		tileArray[2][2] = new Tile(TileSet.tileSets.get(0), 26, 2, 2);
+		
+		tileArray[3][0] = new Tile(TileSet.tileSets.get(0), 11, 3, 0);
+		tileArray[4][0] = new Tile(TileSet.tileSets.get(0), 12, 4, 0);
+		tileArray[5][0] = new Tile(TileSet.tileSets.get(0), 13, 5, 0);
+		tileArray[3][1] = new Tile(TileSet.tileSets.get(0), 19, 3, 1);
+		tileArray[4][1] = new Tile(TileSet.tileSets.get(0), 20, 4, 1);
+		tileArray[5][1] = new Tile(TileSet.tileSets.get(0), 21, 5, 1);
+		tileArray[3][2] = new Tile(TileSet.tileSets.get(0), 27, 3, 2);
+		tileArray[4][2] = new Tile(TileSet.tileSets.get(0), 28, 4, 2);
+		tileArray[5][2] = new Tile(TileSet.tileSets.get(0), 29, 5, 2);
+		
+		tileArray[7][7] = new Tile(TileSet.tileSets.get(0), 3, 7, 7);
+		
 		map[0][0] = new Chunk(tileArray);
 	}
 	
