@@ -1,5 +1,8 @@
 package aatr.engine.world;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL11.*;
+
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
@@ -24,15 +27,28 @@ public class Chunk {
 	
 	public void init() {
 		verts = new Vertex[((int)Math.pow(GRID_DIMENSIONS, 2)) * 4];
+		
+		
+		int c = 0;
 		for(int x = 0; x < tiles.length; x++) {
-			for(int y = 0; y < tiles.length; y++) {
+			
+			for(int y = 0; y < tiles[x].length; y++) {
+				
 				Vertex[] vertHolder = tiles[x][y].getVertices();
-				for(int i = 0; i  < vertHolder.length; i++)
-					verts[(int)(x * 4 + i + GRID_DIMENSIONS * y)] = vertHolder[i];
+				
+				for(int i = 0; i < vertHolder.length; i++) {
+					verts[(int)(x * (vertHolder.length) + i + GRID_DIMENSIONS * vertHolder.length * y)] = vertHolder[i];
+					System.out.println((int)(x * (vertHolder.length) + i + GRID_DIMENSIONS * vertHolder.length * y));
+				}
 			}
+			System.out.println();
 		}
 		
-		entity = new Entity(new Mesh(verts), tiles[0][0].getTileSet().getTexture());
+//		for(int i = 0; i < 1024; i++)
+//			if(verts[i] == null)
+//				System.out.println(i);
+		
+		entity = new Entity(new Mesh(verts).setMode(GL11.GL_QUADS), tiles[0][0].getTileSet().getTexture());
 	}
 	
 	public Chunk draw() {

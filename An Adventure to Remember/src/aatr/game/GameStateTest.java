@@ -9,6 +9,7 @@ import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Vertex;
 import aatr.engine.gfx.texture.RenderableTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
+import aatr.engine.world.World;
 import aatr.engine.world.entity.Entity;
 import aatr.engine.world.entity.EntityManager;
 import aatr.engine.world.entity.EntityQuad;
@@ -27,11 +28,13 @@ public class GameStateTest extends GameState {
 	
 	private Player player;
 	
+	private World world;
+	
 	public void init() {
 		em = new EntityManager(this);
 		
 		player = new Player(this);
-		
+		world = new World();
 //		em.addGroup("Boxes");
 //		
 //		for(int i = 0; i < 10; i++) {
@@ -55,6 +58,7 @@ public class GameStateTest extends GameState {
 	public void update(double tick) {em.update(tick); player.update(tick);}
 	
 	public void draw() {
+		world.draw();
 		em.draw();
 		player.draw();
 	}

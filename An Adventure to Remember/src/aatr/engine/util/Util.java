@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Matrix4f;
 import aatr.engine.gfx.mesh.Vertex;
 
 public final class Util {
+
 	
 	public static final FloatBuffer toFloatBuffer(float[] data) {
 		FloatBuffer buffer = createFloatBuffer(data.length);
@@ -20,8 +21,10 @@ public final class Util {
 	public static final FloatBuffer toFloatBuffer(Vertex[] data) {
 		FloatBuffer buffer = createFloatBuffer(data.length * Vertex.LENGTH);
 		for(Vertex v : data) {
+//			System.out.println(v.getData()[0]);
 			buffer.put(v.getData());
 		}
+		
 		buffer.flip();
 		return buffer;
 	}
