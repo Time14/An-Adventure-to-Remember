@@ -1,6 +1,10 @@
 package aatr.engine.world;
 
+import aatr.engine.gfx.mesh.Mesh;
+import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
+import aatr.engine.util.Util;
+import aatr.engine.world.entity.Entity;
 import aatr.engine.world.tile.Tile;
 
 public class Chunk {
@@ -11,12 +15,15 @@ public class Chunk {
 	
 	private Vertex[] verts;
 	
+	private Entity entity;
+	
 	public Chunk(Tile[][] tiles) {
 		this.tiles = tiles;
-		verts = new Vertex[((int)Math.pow(GRID_DIMENSIONS, 2)) * 4];
+		init();
 	}
 	
-	public void draw() {
+	public void init() {
+		verts = new Vertex[((int)Math.pow(GRID_DIMENSIONS, 2)) * 4];
 		for(int x = 0; x < tiles.length; x++) {
 			for(int y = 0; y < tiles.length; y++) {
 				Vertex[] vertHolder = tiles[x][y].getVertices();
@@ -25,5 +32,11 @@ public class Chunk {
 			}
 		}
 		
+		entity = new Entity(new Mesh(verts), tiles[0][0].getTileSet().getTexture());
+	}
+	
+	public Chunk draw() {
+		entity.draw();
+		return this;
 	}
 }

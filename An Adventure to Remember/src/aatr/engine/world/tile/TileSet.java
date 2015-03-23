@@ -69,6 +69,17 @@ public class TileSet {
 		return texCoords[id];
 	}
 	
+	public Texture getTexture() {
+		return texture;
+	}
+	
+	public int getTextureID() {
+		return texture.getID();
+	}
+	
+	public void bind() {
+		texture.bind();
+	}
 	
 	//Loading Tilesets
 	static {

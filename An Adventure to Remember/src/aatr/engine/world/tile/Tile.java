@@ -35,6 +35,10 @@ public class Tile {
 		
 		return verts;
 	}
+
+	public TileSet getTileSet() {
+		return tileSet;
+	}
 }
 
 

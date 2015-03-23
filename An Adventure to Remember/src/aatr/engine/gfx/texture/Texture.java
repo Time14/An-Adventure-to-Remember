@@ -125,6 +125,10 @@ public class Texture {
 		return height;
 	}
 	
+	public int getID() {
+		return id;
+	}
+	
 	public void destroy() {
 		glDeleteTextures(id);
 		System.out.println("Destroyed texture with ID: " + id);
