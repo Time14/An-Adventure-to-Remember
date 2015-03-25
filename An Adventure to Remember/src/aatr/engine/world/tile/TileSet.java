@@ -66,6 +66,8 @@ public class TileSet {
 	}
 	
 	public Vector2f[] getTexCoords(int id) {
+		if(id >= tilesTotal)
+			return new Vector2f[]{new Vector2f(), new Vector2f(), new Vector2f(), new Vector2f()};
 		return texCoords[id];
 	}
 	

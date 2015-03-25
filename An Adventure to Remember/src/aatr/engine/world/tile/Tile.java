@@ -18,6 +18,11 @@ public class Tile {
 	
 	private TileProperty[] properties;
 	
+	
+	public Tile(int tileSetID, int id, int x, int y) {
+		this(TileSet.tileSets.get(tileSetID), id, x, y);
+	}
+	
 	public Tile(TileSet tileSet, int id, int x, int y) {
 		this.id = id;
 		this.tileSet = tileSet;
@@ -27,6 +32,8 @@ public class Tile {
 	
 	
 	public Vertex[] getVertices() {
+		if(id == -1)
+			return null;
 		Vertex[] verts = new Vertex[4];
 		Vector2f[] texCords = tileSet.getTexCoords(id);
 	 	
@@ -40,6 +47,11 @@ public class Tile {
 	
 	public TileSet getTileSet() {
 		return tileSet;
+	}
+	
+	public void destroy() {
+		//TODO auto-generated stub
+		return;
 	}
 }
 

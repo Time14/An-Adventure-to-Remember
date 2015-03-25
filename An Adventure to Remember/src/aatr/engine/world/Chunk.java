@@ -40,15 +40,36 @@ public class Chunk {
 			}
 		}
 		
-//		for(int i = 0; i < 1024; i++)
-//			if(verts[i] == null)
-//				System.out.println(i);
-		
 		entity = new Entity(new Mesh(verts).setMode(GL11.GL_QUADS), tiles[0][0].getTileSet().getTexture());
+	}
+	
+	public Tile getTile(int x, int y) {
+		return tiles[x][y];
+	}
+	
+	public void destroy() {
+		for(Tile[] ts : tiles)
+			for(Tile t : ts)
+				t.destroy();
+		entity.destroy();
+	}
+	
+	public int getActiveTiles() {
+		int i = 0;
+		for(Tile[] ts : tiles)
+			for(Tile t : ts)
+				if(t != null)
+					i++;
+		
+		return i;		
 	}
 	
 	public Chunk draw() {
 		entity.draw();
 		return this;
+	}
+	
+	public Entity getEntity() {
+		return entity;
 	}
 }

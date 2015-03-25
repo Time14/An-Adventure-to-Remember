@@ -3,6 +3,7 @@ package aatr.engine.world.player;
 import org.lwjgl.input.Keyboard;
 
 import aatr.engine.gamestate.GameState;
+import aatr.engine.gamestate.GameStateWorld;
 import aatr.engine.world.entity.EntityQuad;
 import aatr.engine.world.World;
 
@@ -12,15 +13,17 @@ public class Player extends EntityQuad {
 	
 	private float speed = 500;
 	
-	public static final float SIDE = 64;
+	public static final float SIDE = World.GRID_SIZE;
 	
 	private Direction dir;
 	
 	private boolean isWalking;
 	
-	private GameState gs;
+	private GameStateWorld gs;
 	
-	public Player(GameState gs) {
+	private int layer = 0;
+	
+	public Player(GameStateWorld gs) {
 		super(0, 0, SIDE, SIDE);
 		this.gs = gs;
 		dir = Direction.DOWN;
@@ -93,6 +96,7 @@ public class Player extends EntityQuad {
 		
 		switch (dir) {
 		case UP:
+			
 			if(w)
 				walk(Direction.UP);
 			break;
@@ -135,4 +139,47 @@ public class Player extends EntityQuad {
 		
 		this.dir = dir;
 	}
+	
+	public int getLayer() {
+		return layer;
+	}
+	
+	public Player setLayer(int layer) {
+		this.layer = layer;
+		return this;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(float speed) {
+		this.speed = speed;
+	}
+
+	public Direction getDir() {
+		return dir;
+	}
+
+	public void setDir(Direction dir) {
+		this.dir = dir;
+	}
+	
+	
 }
