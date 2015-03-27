@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;
 
-public class WorldLoader {
-
-	WorldLoader() {
-	}
+public final class WorldLoader {
 
 	/*
 	 * w = width, h = height t = tile id s = tile set id Mock .map file : 1 =
@@ -24,16 +21,42 @@ public class WorldLoader {
 	 * först, sedan nästa chunk, ect. wh~~!~~!~~!~~!
 	 */
 
-	public WorldData loadMapFromFile(String path) {
+	public static final WorldData loadMapFromFile(String path) {
 		try {
 			
 			File mapFile = new File(path);
 			
 			ByteBuffer mapData = loadFile(mapFile);
 			
+			//Loading Width and Height
 			short width = mapData.getShort();
 			short height = mapData.getShort();
 			
+			//Loading undefined border chunk
+			short ts = mapData.getShort();
+			short id1 = mapData.getShort();
+			short id2 = mapData.getShort();
+			short id3 = mapData.getShort();
+			short id4 = mapData.getShort();
+			
+			Tile[][] tileArray = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
+			for (int x = 0; x < Chunk.GRID_DIMENSIONS; x += 2) {
+				for (int y = 0; y < Chunk.GRID_DIMENSIONS; y += 2) {
+					tileArray[x][y] = new Tile(ts, id1);
+					tileArray[x + 1][y] = new Tile(ts, id2);
+					tileArray[x + 1][y + 1] = new Tile(ts, id4);
+					tileArray[x][y + 1] = new Tile(ts, id3);
+				}
+			}
+			
+			Tile[] border = new Tile[]{
+					new Tile(ts, id1),
+					new Tile(ts, id2),
+					new Tile(ts, id3),
+					new Tile(ts, id4)
+			};
+			
+			//Loading chunks
 			Chunk[][] map = new Chunk[width][height];
 
 			for (int y = 0; y < height; y++) {
@@ -51,7 +74,7 @@ public class WorldLoader {
 				}
 			}
 			
-			return new WorldData(width, height, map);
+			return new WorldData(width, height, map, border, new Chunk(tileArray));
 
 		} catch (IOException e) {
 			System.err.println("Error 404 file not found \"" + path + "\"");
@@ -60,7 +83,7 @@ public class WorldLoader {
 		}
 	}
 
-	private ByteBuffer loadFile(File mapFile)
+	private  static final ByteBuffer loadFile(File mapFile)
 			throws IOException {
 		
 		
