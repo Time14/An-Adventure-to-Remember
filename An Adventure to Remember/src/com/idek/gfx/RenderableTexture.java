@@ -1,3 +1,4 @@
+/*
 package com.idek.gfx;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -168,3 +169,4 @@ public class RenderableTexture extends Texture {
 		return hasDepthBuffer;
 	}
 }
+*/

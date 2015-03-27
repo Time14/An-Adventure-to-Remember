@@ -127,7 +127,7 @@ public class TileSet {
 				
 				
 			} catch (IOException e) {
-//				System.err.println("\"" + files[i].getPath() + "\"");
+				// System.err.println("\"" + files[i].getPath() + "\"");
 				e.printStackTrace();
 			}
 		}

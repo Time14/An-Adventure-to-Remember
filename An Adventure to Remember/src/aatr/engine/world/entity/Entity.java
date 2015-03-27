@@ -74,8 +74,7 @@ public class Entity {
 	}
 	
 	public void update(double tick) {
-		//TODO:
-		//Transform sh!t : - D
+		//TODO
 	}
 	
 	public void draw() {

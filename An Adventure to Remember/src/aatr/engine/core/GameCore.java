@@ -10,7 +10,6 @@ public abstract class GameCore {
 	
 	private GameStateManager gsm;
 	private TextureLibrary tl;
-	
 	private String default_title;
 	private float default_width;
 	private float default_height;
