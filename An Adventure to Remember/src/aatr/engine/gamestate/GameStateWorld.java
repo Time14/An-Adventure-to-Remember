@@ -18,7 +18,7 @@ public abstract class GameStateWorld extends GameState {
 	@Override
 	public void init() {
 		worlds = new World[8];
-		worlds[0] = new World();
+		worlds[0] = new World(getDefaultWorldPath());
 		player = new Player(this);
 		em = new EntityManager(this);
 	}
@@ -51,6 +51,10 @@ public abstract class GameStateWorld extends GameState {
 		em.destroy();
 	}
 	
+	public World getWorld(int layer) {
+		return worlds[layer];
+	}
 	
+	public abstract String getDefaultWorldPath();
 	
 }

@@ -12,9 +12,7 @@ public class World {
 	
 	private Chunk[][] map;
 	
-	private Chunk unDefinedChunk;
-	
-	private Tile unDefinedTile = new Tile(0, 0).addProperty(TileProperty.SOLID);
+	private Chunk borderChunk;
 	
 //	public World() {
 //		initTestChunk();
@@ -54,10 +52,13 @@ public class World {
 	 * reffering to the tileset to be used
 	 */
 	public World loadMap(String mapPath) {
-
+		if(mapPath == null)
+			return this;
+		
 		WorldData worldData = WorldLoader.loadMapFromFile(mapPath);
 		
 		map = worldData.CHUNKS;
+		borderChunk = worldData.BORDER_CHUNK;
 		
 		return this;
 	}
@@ -65,7 +66,7 @@ public class World {
 	public Tile getTile(int x, int y) {
 		
 		if (x < 0 || y < 0) {
-			return unDefinedTile;
+			return new Tile(0, 0).addProperty(TileProperty.SOLID);
 		}
 		
 		int cx = ((int) (x - x % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS);
@@ -74,7 +75,7 @@ public class World {
 		x = (x + Chunk.GRID_DIMENSIONS) % Chunk.GRID_DIMENSIONS;
 		y = (y + Chunk.GRID_DIMENSIONS) % Chunk.GRID_DIMENSIONS;
 		if (0 > cx || cx > map.length - 1 || 0 > cy || cy > map[cx].length - 1)
-			return unDefinedTile;
+			return new Tile(0, 0).addProperty(TileProperty.SOLID);
 		return map[cx][cy].getTile(x, y);
 	}
 
@@ -87,10 +88,10 @@ public class World {
 			for (int j = y; j < (y + MAX_DRAWDISTANCE * 2 + 1); j++) {
 				if (0 > i || i > map.length - 1 || 0 > j
 						|| j > map[i].length - 1) {
-					unDefinedChunk.getEntity().setPosition(
+					borderChunk.getEntity().setPosition(
 							i * Chunk.GRID_DIMENSIONS * GRID_SIZE,
 							j * Chunk.GRID_DIMENSIONS * GRID_SIZE);
-					unDefinedChunk.draw();
+					borderChunk.draw();
 					continue;
 				}
 				map[i][j].draw();

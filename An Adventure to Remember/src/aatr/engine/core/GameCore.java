@@ -1,5 +1,7 @@
 package aatr.engine.core;
 
+import aatr.engine.audio.AudioLibrary;
+import aatr.engine.audio.AudioManager;
 import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gfx.Window;
 import aatr.engine.gfx.shader.OrthographicShaderProgram;
@@ -31,6 +33,8 @@ public abstract class GameCore {
 		tl = new TextureLibrary();
 		registerTextures(tl);
 		
+		AudioManager.start(this);
+		
 		gsm = new GameStateManager(this);
 		
 		while(Window.isRunning())
@@ -47,6 +51,7 @@ public abstract class GameCore {
 	}
 	
 	public abstract void registerTextures(TextureLibrary texLib);
+	public abstract void registerAudio();
 	public abstract void registerGameStates(GameStateManager gsm);
 	
 	private void destroy() {
@@ -56,6 +61,12 @@ public abstract class GameCore {
 		//Destroying shaders
 		OrthographicShaderProgram.INSTANCE.destroy();
 		
+		try {
+			AudioManager.destroy();
+			AudioManager.getThread().join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		TextureLibrary.destroy();
 		Window.destroy();
 	}

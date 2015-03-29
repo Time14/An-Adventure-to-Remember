@@ -2,6 +2,7 @@ package aatr.engine.world.player;
 
 import org.lwjgl.input.Keyboard;
 
+import sk.stb.STB;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateWorld;
 import aatr.engine.world.entity.EntityQuad;
@@ -10,11 +11,13 @@ import aatr.engine.world.Chunk;
 import aatr.engine.world.World;
 
 public class Player extends EntityQuad {
-	//I am a comment
+
+	public static final String STB_WALK_COUNTER = "Player Walk Counter";
+
 	private int x = 0, y = 0;
 	private int cx = 0, cy = 0;
 	private int layer = 0;
-
+	
 	private float speed = 500;
 
 	private boolean isWalking;
@@ -30,22 +33,36 @@ public class Player extends EntityQuad {
 		this.gs = gs;
 		dir = Direction.DOWN;
 		isWalking = false;
+
+		STB.start(STB_WALK_COUNTER, .1f);
 	}
 
 	public void checkKeyboard(int key, boolean pressed) {
 		if (pressed && !isWalking) {
 			switch (key) {
 			case Keyboard.KEY_A:
-				faceDir(Direction.LEFT);
+				if(dir != Direction.LEFT) {
+					faceDir(Direction.LEFT);
+					STB.reset(STB_WALK_COUNTER);
+				}
 				break;
 			case Keyboard.KEY_D:
-				faceDir(Direction.RIGHT);
+				if(dir != Direction.RIGHT) {
+					faceDir(Direction.RIGHT);
+					STB.reset(STB_WALK_COUNTER);
+				}
 				break;
 			case Keyboard.KEY_W:
-				faceDir(Direction.UP);
+				if(dir != Direction.UP) {
+					faceDir(Direction.UP);
+					STB.reset(STB_WALK_COUNTER);
+				}
 				break;
 			case Keyboard.KEY_S:
-				faceDir(Direction.DOWN);
+				if(dir != Direction.DOWN) {
+					faceDir(Direction.DOWN);
+					STB.reset(STB_WALK_COUNTER);
+				}
 				break;
 
 			}
@@ -53,6 +70,9 @@ public class Player extends EntityQuad {
 	}
 
 	public void update(double tick) {
+		
+		STB.update(tick, STB_WALK_COUNTER);
+		
 		if (isWalking) {
 			switch (dir) {
 			case RIGHT:
@@ -89,7 +109,7 @@ public class Player extends EntityQuad {
 				break;
 			}
 
-		} else {
+		} else if (STB.done(STB_WALK_COUNTER)) {
 
 			boolean w = Keyboard.isKeyDown(Keyboard.KEY_W);
 			boolean a = Keyboard.isKeyDown(Keyboard.KEY_A);

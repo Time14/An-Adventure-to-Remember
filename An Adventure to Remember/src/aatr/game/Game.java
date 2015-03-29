@@ -25,6 +25,10 @@ public class Game extends GameCore {
 		start(TITLE, DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	
+	public void registerAudio() {
+		
+	}
+	
 	public void registerTextures(TextureLibrary texLib) {
 		TextureLibrary.registerTexture("Place Holder", new Texture("res/Art/PlaceHolderArt.png"));
 		TextureLibrary.registerTexture("Renderable Texture",

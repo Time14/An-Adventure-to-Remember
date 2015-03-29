@@ -37,5 +37,9 @@ public class GameStateTest extends GameStateWorld {
 	public void checkKeyboard(int key, boolean pressed) {
 		player.checkKeyboard(key, pressed);
 	}
+	
+	public String getDefaultWorldPath() {
+		return "res/map/maps/test.map";
+	}
 
 }
