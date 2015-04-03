@@ -13,12 +13,13 @@ import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;
 
 public final class WorldLoader {
-
-	/*
-	 * w = width, h = height t = tile id s = tile set id Mock .map file : 1 =
-	 * tile, \n = new row w h stststst\n stststst\n stststst\n stststst\n Or : ~
-	 * = 2 tiles, ! = new row, skrivs i chunk form, så allt från en chunk kommer
-	 * först, sedan nästa chunk, ect. wh~~!~~!~~!~~!
+	
+	/* ChunksX		2 Bytes
+	 * ChunksY		2 Bytes
+	 * Tileset		2 Bytes
+	 * Border		4*2 Bytes
+	 * Chunks		16^2*2*x bytes
+	 * 
 	 */
 
 	public static final WorldData loadMapFromFile(String path) {
@@ -40,7 +41,7 @@ public final class WorldLoader {
 			short id2 = mapData.getShort();
 			short id3 = mapData.getShort();
 			short id4 = mapData.getShort();
-
+			
 			Tile[][] borderChunkTiles = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
 			for (int x = 0; x < Chunk.GRID_DIMENSIONS; x += 2) {
 				for (int y = 0; y < Chunk.GRID_DIMENSIONS; y += 2) {
@@ -50,21 +51,46 @@ public final class WorldLoader {
 					borderChunkTiles[x][y + 1] = new Tile(ts, id3);
 				}
 			}
-
+			
 			Tile[] border = new Tile[] { new Tile(ts, id1), new Tile(ts, id2),
 					new Tile(ts, id3), new Tile(ts, id4) };
 
 			// Loading chunks
 			Chunk[][] map = new Chunk[width][height];
-
+			
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
 					
 					Tile[][] chunkData = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
 					
+					boolean repeat = false;
+					short repeatAmt = 0;
+					short repeatCount = 0;
+					short repeatTd = 0;
 					for(int i = 0; i < chunkData.length; i++) {
 						for(int j = 0; j < chunkData[i].length; j++) {
-							chunkData[i][j] = new Tile(ts, mapData.getShort());
+							short td = 0;
+							if(!repeat) {
+								td = mapData.getShort();
+								
+								if(td == -1) {
+									repeat = true;
+									repeatCount = 0;
+									repeatAmt = mapData.getShort();
+									repeatTd = mapData.getShort();
+									System.out.println(repeatTd + "\t" + repeatAmt);
+									td = repeatTd;
+								}
+							} else {
+								if(++repeatCount == repeatAmt) {
+									td = mapData.getShort();
+								}
+							}
+							
+							if(repeat)
+								td = repeatTd;
+							
+							chunkData[i][j] = new Tile(ts, td);
 						}
 					}
 					

@@ -39,7 +39,7 @@ public class GameStateTest extends GameStateWorld {
 	}
 	
 	public String getDefaultWorldPath() {
-		return "res/map/maps/test.map";
+		return "res/map/maps/test2.map";
 	}
 
 }
