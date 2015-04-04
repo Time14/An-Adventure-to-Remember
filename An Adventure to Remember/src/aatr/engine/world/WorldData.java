@@ -1,8 +1,12 @@
 package aatr.engine.world;
 
 import aatr.engine.world.tile.Tile;
+import aatr.engine.world.tile.TileSet;
 
 public class WorldData {
+	
+	public final short TILESET_ID;
+	public final TileSet TILESET;
 	
 	public final short WIDTH, HEIGHT;
 	public final Chunk[][] CHUNKS;
@@ -10,11 +14,13 @@ public class WorldData {
 	public final Tile[] BORDER;
 	public final Chunk BORDER_CHUNK;
 	
-	public WorldData(short width, short height, Chunk[][] chunks, Tile[] border, Chunk borderChunk) {
+	public WorldData(short width, short height, short tileSetID, Chunk[][] chunks, Tile[] border, Chunk borderChunk) {
 		WIDTH = width;
 		HEIGHT = height;
 		CHUNKS = chunks;
 		BORDER = border;
 		BORDER_CHUNK = borderChunk;
-	}	
+		TILESET_ID = tileSetID;
+		TILESET = TileSet.tileSets.get(TILESET_ID);
+	}
 }

@@ -7,42 +7,43 @@ import aatr.engine.world.tile.TileProperty;
 public class World {
 	public static final int GRID_SIZE = 16;
 	public static final int MAX_DRAWDISTANCE = 1;
-	
+
 	private Chunk[][] map;
-	
+
 	private Chunk borderChunk;
-	
-//	public World() {
-//		initTestChunk();
-//	}
+
+	// public World() {
+	// initTestChunk();
+	// }
 
 	public World(String mapPath) {
 		loadMap(mapPath);
 	}
 
-//	public void initTestChunk() {
-//
-//		int ts = 1;
-//		int dim = 1;
-//		map = new Chunk[dim][dim];
-//
-//		for (int cx = 0; cx < dim; cx++) {
-//			for (int cy = 0; cy < dim; cy++) {
-//				Tile[][] tileArray = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
-//				for (int x = 0; x < Chunk.GRID_DIMENSIONS; x++) {
-//					for (int y = 0; y < Chunk.GRID_DIMENSIONS; y++) {
-//						tileArray[x][y] = new Tile(ts, x + cx
-//								* Chunk.GRID_DIMENSIONS
-//								+ (y + cy * Chunk.GRID_DIMENSIONS) * 40, x, y);
-//					}
-//				}
-//				map[cx][cy] = new Chunk(tileArray);
-//				map[cx][cy].getEntity().translate(
-//						cx * GRID_SIZE * Chunk.GRID_DIMENSIONS,
-//						cy * GRID_SIZE * Chunk.GRID_DIMENSIONS);
-//			}
-//		}
-//	}
+	// public void initTestChunk() {
+	//
+	// int ts = 1;
+	// int dim = 1;
+	// map = new Chunk[dim][dim];
+	//
+	// for (int cx = 0; cx < dim; cx++) {
+	// for (int cy = 0; cy < dim; cy++) {
+	// Tile[][] tileArray = new
+	// Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
+	// for (int x = 0; x < Chunk.GRID_DIMENSIONS; x++) {
+	// for (int y = 0; y < Chunk.GRID_DIMENSIONS; y++) {
+	// tileArray[x][y] = new Tile(ts, x + cx
+	// * Chunk.GRID_DIMENSIONS
+	// + (y + cy * Chunk.GRID_DIMENSIONS) * 40, x, y);
+	// }
+	// }
+	// map[cx][cy] = new Chunk(tileArray);
+	// map[cx][cy].getEntity().translate(
+	// cx * GRID_SIZE * Chunk.GRID_DIMENSIONS,
+	// cy * GRID_SIZE * Chunk.GRID_DIMENSIONS);
+	// }
+	// }
+	// }
 
 	/*
 	 * All .map files have 3 shorts in the header short width = The width of the
@@ -50,30 +51,36 @@ public class World {
 	 * reffering to the tileset to be used
 	 */
 	public World loadMap(String mapPath) {
-		if(mapPath == null)
+		if (mapPath == null)
 			return this;
-		
+
 		WorldData worldData = WorldLoader.loadMapFromFile(mapPath);
-		
+
 		map = worldData.CHUNKS;
 		borderChunk = worldData.BORDER_CHUNK;
-		
+
 		return this;
 	}
 
+	public void setTile(Tile tile) {
+		map[(int) Math.floor(((float) tile.getX() / Chunk.GRID_DIMENSIONS))][(int) Math
+				.floor(((float) tile.getY() / Chunk.GRID_DIMENSIONS))]
+				.setTile(tile);
+	}
+
 	public Tile getTile(int x, int y) {
-		
+
 		if (x < 0 || y < 0) {
-			return new Tile(0, 0).addProperty(TileProperty.SOLID);
+			return new Tile(0).addProperty(TileProperty.SOLID);
 		}
-		
+
 		int cx = ((int) (x - x % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS);
 		int cy = ((int) (y - y % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS);
-		
+
 		x = (x + Chunk.GRID_DIMENSIONS) % Chunk.GRID_DIMENSIONS;
 		y = (y + Chunk.GRID_DIMENSIONS) % Chunk.GRID_DIMENSIONS;
 		if (0 > cx || cx > map.length - 1 || 0 > cy || cy > map[cx].length - 1)
-			return new Tile(0, 0).addProperty(TileProperty.SOLID);
+			return new Tile(0).addProperty(TileProperty.SOLID);
 		return map[cx][cy].getTile(x, y);
 	}
 
