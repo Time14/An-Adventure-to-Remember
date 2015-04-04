@@ -8,12 +8,12 @@ import aatr.engine.gamestate.GameStateWorld;
 import aatr.engine.gfx.Window;
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Vertex;
+import aatr.engine.gfx.renderer.QuadRenderer;
+import aatr.engine.gfx.renderer.Renderer;
 import aatr.engine.gfx.texture.RenderableTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.World;
-import aatr.engine.world.entity.Entity;
 import aatr.engine.world.entity.EntityManager;
-import aatr.engine.world.entity.EntityQuad;
 import aatr.engine.world.player.Player;
 import static org.lwjgl.opengl.GL11.*;
 

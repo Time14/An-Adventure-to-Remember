@@ -6,8 +6,8 @@ import org.lwjgl.opengl.GL11.*;
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
+import aatr.engine.gfx.renderer.Renderer;
 import aatr.engine.util.Util;
-import aatr.engine.world.entity.Entity;
 import aatr.engine.world.tile.Tile;
 
 public class Chunk {
@@ -18,7 +18,7 @@ public class Chunk {
 
 	private Vertex[] verts;
 
-	private Entity entity;
+	private Renderer renderer;
 
 	//#EdvardQuickFix!
 	private static Tile[][] convertTiles(Tile[] tiles) {
@@ -57,7 +57,7 @@ public class Chunk {
 			}
 		}
 
-		entity = new Entity(new Mesh(verts).setMode(GL11.GL_QUADS), tiles[0][0]
+		renderer = new Renderer(new Mesh(verts).setMode(GL11.GL_QUADS), tiles[0][0]
 				.getTileSet().getTexture());
 	}
 
@@ -69,7 +69,7 @@ public class Chunk {
 		for (Tile[] ts : tiles)
 			for (Tile t : ts)
 				t.destroy();
-		entity.destroy();
+		renderer.destroy();
 	}
 
 	public int getActiveTiles() {
@@ -83,11 +83,11 @@ public class Chunk {
 	}
 
 	public Chunk draw() {
-		entity.draw();
+		renderer.draw();
 		return this;
 	}
 
-	public Entity getEntity() {
-		return entity;
+	public Renderer getEntity() {
+		return renderer;
 	}
 }

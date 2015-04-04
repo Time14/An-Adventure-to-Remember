@@ -5,12 +5,12 @@ import org.lwjgl.input.Keyboard;
 import sk.stb.STB;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateWorld;
-import aatr.engine.world.entity.EntityQuad;
+import aatr.engine.gfx.renderer.QuadRenderer;
 import aatr.engine.world.tile.TileProperty;
 import aatr.engine.world.Chunk;
 import aatr.engine.world.World;
 
-public class Player extends EntityQuad {
+public class Player extends QuadRenderer {
 
 	public static final String STB_WALK_COUNTER = "Player Walk Counter";
 

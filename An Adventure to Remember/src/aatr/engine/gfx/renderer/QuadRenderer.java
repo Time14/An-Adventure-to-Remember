@@ -1,4 +1,4 @@
-package aatr.engine.world.entity;
+package aatr.engine.gfx.renderer;
 
 import org.lwjgl.opengl.GL11;
 
@@ -9,13 +9,13 @@ import aatr.engine.gfx.mesh.Vertex;
 import aatr.engine.gfx.texture.Texture;
 import aatr.engine.gfx.texture.TextureLibrary;
 
-public class EntityQuad extends Entity {
+public class QuadRenderer extends Renderer {
 	
-	public EntityQuad(float x, float y, float width, float height) {
+	public QuadRenderer(float x, float y, float width, float height) {
 		this(x, y, width, height, TextureLibrary.DEFAULT_TEXTURE);
 	}
 	
-	public EntityQuad(float x, float y, float width, float height, Texture texture) {
+	public QuadRenderer(float x, float y, float width, float height, Texture texture) {
 		super(new Mesh(new Vertex[]{
 				new Vertex(0, 0, 0, 0),
 				new Vertex(width, 0, 1, 0),
