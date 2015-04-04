@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 
+import aatr.engine.debug.Debug;
 import aatr.engine.gfx.mesh.Vertex;
 import aatr.engine.gfx.renderer.QuadRenderer;
 import aatr.engine.world.World;
@@ -21,7 +22,7 @@ public class Tile {
 	private ArrayList<TileProperty> properties;
 	
 	public Tile(int tileSetID, int id) {
-		this(TileSet.tileSets.get(tileSetID), id, 0, 0);
+		this(TileSet.tileSets.get(tileSetID), id, -1, -1);
 	}
 	
 	public Tile(int tileSetID, int id, int x, int y) {
@@ -66,13 +67,30 @@ public class Tile {
 	
 	public Tile addProperty(TileProperty... tp) {
 		for(TileProperty t : tp) {
-			this.properties.add(t);
+			if(!is(t)) {
+				this.properties.add(t);
+			}
 		}
+		return this;
+	}
+	
+	public Tile removeProperty(TileProperty tp) {
+		int l = properties.size();
+		for(int i = 0; i < 3; i++)
+			properties.remove(tp);
 		return this;
 	}
 	
 	public ArrayList<TileProperty> getTileProperties() {
 		return properties;
+	}
+	
+	public boolean is(TileProperty... tp) {
+		for(TileProperty t : tp) {
+			if(is(t))
+				return true;
+		}
+		return false;
 	}
 	
 	public boolean is(TileProperty tp) {
