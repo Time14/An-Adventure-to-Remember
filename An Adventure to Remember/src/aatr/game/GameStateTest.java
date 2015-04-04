@@ -2,7 +2,7 @@ package aatr.game;
 
 import org.lwjgl.input.Keyboard;
 
-import aatr.engine.ai.Player;
+import aatr.engine.ai.PlayerController;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gamestate.GameStateWorld;
@@ -35,7 +35,7 @@ public class GameStateTest extends GameStateWorld {
 	}
 
 	public void checkKeyboard(int key, boolean pressed) {
-		Player.checkKeyboard(key, pressed);
+		controller.checkKeyboard(key, pressed);
 	}
 	
 	public String getDefaultWorldPath() {

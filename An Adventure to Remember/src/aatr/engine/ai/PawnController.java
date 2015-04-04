@@ -9,5 +9,5 @@ import aatr.engine.world.tile.TileProperty;
 
 public abstract class PawnController {
 	
-	abstract Direction chooseDirection(Entity pawn);
+	public abstract Direction control(Entity pawn);
 }

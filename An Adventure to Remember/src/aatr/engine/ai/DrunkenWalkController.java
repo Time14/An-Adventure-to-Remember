@@ -18,13 +18,16 @@ public class DrunkenWalkController extends PawnController{
 		this.anchorY = anchorY;
 	}
 
-	public Direction chooseDirection(Entity pawn) {
+	public Direction control(Entity pawn) {
+		if(pawn.getIsWalking())
+			return null;
 		int dir = (int)Math.floor(Math.random() * 100);
 		int x = pawn.getX();
 		int y = pawn.getY();
 		int layer = pawn.getLayer();
 		GameStateWorld gameState = pawn.getGameState();
 		if(dir < 4) {
+			pawn.setIsWalking(true);
 			if(dir == 0 && !gameState.getWorld(layer).getTile(x, y + 1).is(TileProperty.SOLID) && isInRange(x, y + 1)) {
 				return Direction.getWithValue(dir);
 			}

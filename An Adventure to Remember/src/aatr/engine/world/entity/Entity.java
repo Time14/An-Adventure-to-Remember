@@ -2,6 +2,7 @@ package aatr.engine.world.entity;
 
 import aatr.engine.ai.Direction;
 import aatr.engine.ai.PawnController;
+import aatr.engine.debug.Debug;
 import aatr.engine.gamestate.GameStateWorld;
 import aatr.engine.gfx.renderer.QuadRenderer;
 import aatr.engine.gfx.renderer.Renderer;
@@ -16,15 +17,17 @@ public class Entity {
 	
 	protected int x, y;
 	
-	protected float speed = 10;
+	protected float speed = 100;
 	
 	protected boolean isWalking;
 	
 	protected boolean autoFace = false;
+
+	protected EntityManager em;
 	
-	protected PawnController ai;
+	protected Renderer renderer;
 	
-	protected Renderer pawn;
+	protected PawnController controller;
 	
 	protected GameStateWorld gameState; 
 
@@ -35,15 +38,31 @@ public class Entity {
 		this(gameState, new QuadRenderer(0, 0, World.GRID_SIZE, World.GRID_SIZE));
 	}
 	
-	public Entity(GameStateWorld gameState, Renderer pawn) {
+	public Entity(GameStateWorld gameState, Renderer renderer) {
 		this.gameState = gameState;
-		bindPawn(pawn);
+		bindRenderer(renderer);
 		isWalking = false;
 		
 		layer = 0;
 		
 		direction = Direction.UP;
 		faceDirection = Direction.UP;
+		
+		em = gameState.getEntityManager();
+		em.addToGroup(EntityManager.ENTITIES_GROUP, this);
+	}
+	
+	public EntityManager getEntityManager() {
+		return em;
+	}
+	
+	public PawnController getController() {
+		return controller;
+	}
+	
+	public Entity bindController(PawnController controller) {
+		this.controller = controller;
+		return this;
 	}
 	
 	public Entity sendEntityManager(EntityManager em) {
@@ -51,24 +70,24 @@ public class Entity {
 		return this;
 	}
 	
-	public Entity bindPawn(Renderer pawn) {
-		this.pawn = pawn;
+	public Entity bindRenderer(Renderer renderer) {
+		this.renderer = renderer;
 		return this;
 	}
 	
-	public Entity placePawn(float x, float y) {
-		return placePawn((int) Math.floor(x), (int) Math.floor(y));
+	public Entity placeRenderer(float x, float y) {
+		return placeRenderer((int) Math.floor(x), (int) Math.floor(y));
 	}
 	
-	public Entity placePawn(int x, int y) {
+	public Entity placeRenderer(int x, int y) {
 		this.x = x;
 		this.y = y;
-		pawn.getTransform().setPosition(x * World.GRID_SIZE, y * World.GRID_SIZE);
+		renderer.getTransform().setPosition(x * World.GRID_SIZE, y * World.GRID_SIZE);
 		return this;
 	}
 	
-	public Renderer getPawn() {
-		return pawn;
+	public Renderer getRenderer() {
+		return renderer;
 	}
 	
 	public int getLayer() {
@@ -121,58 +140,50 @@ public class Entity {
 	public void setFaceDirection(Direction direction) {
 		faceDirection = direction;
 	}
-
-	public void walk(Direction direction) {
-		if(!isWalking) {
-			isWalking = true;
-			this.direction = direction;
-		}
-	}
 	
 	public void update(double tick) {
-		if(autoFace) {
-			direction = faceDirection;
-		}
-		
-		if(direction == faceDirection) {
-			if (isWalking) {
-				switch (direction) {
-				case RIGHT:
-					pawn.translate((float) (speed * tick), 0);
-					if ((x + 1) * World.GRID_SIZE < this.pawn.getTransform().position.x) {
-						x++;
-						pawn.getTransform().position.x = x * World.GRID_SIZE;
-						isWalking = false;
-					}
-					break;
-				case LEFT:
-					pawn.translate((float) (-speed * tick), 0);
-					if ((x - 1) * World.GRID_SIZE > this.pawn.getTransform().position.x) {
-						x--;
-						pawn.getTransform().position.x = x * World.GRID_SIZE;
-						isWalking = false;
-					}
-					break;
-				case DOWN:
-					pawn.translate(0, (float) (speed * tick));
-					if ((y + 1) * World.GRID_SIZE < this.pawn.getTransform().position.y) {
-						y++;
-						pawn.getTransform().position.y = y * World.GRID_SIZE;
-						isWalking = false;
-					}
-					break;
-				case UP:
-					pawn.translate(0, (float) (-speed * tick));
-					if ((y - 1) * World.GRID_SIZE > this.pawn.getTransform().position.y) {
-						y--;
-						pawn.getTransform().position.y = y * World.GRID_SIZE;
-						isWalking = false;
-					}
-					break;
+		controller.control(this);
+		updateWalk(tick);
+	}
+	
+	private void updateWalk(double tick) {
+		if (isWalking) {
+			switch (direction) {
+			case RIGHT:
+				renderer.translate((float) (speed * tick), 0);
+				if ((x + 1) * World.GRID_SIZE <= this.renderer.getTransform().position.x) {
+					x++;
+					renderer.getTransform().position.x = x * World.GRID_SIZE;
+					isWalking = false;
 				}
-				if(!isWalking)
-					placePawn(x, y);
+				break;
+			case LEFT:
+				renderer.translate((float) (-speed * tick), 0);
+				if ((x - 1) * World.GRID_SIZE >= this.renderer.getTransform().position.x) {
+					x--;
+					renderer.getTransform().position.x = x * World.GRID_SIZE;
+					isWalking = false;
+				}
+				break;
+			case DOWN:
+				renderer.translate(0, (float) (speed * tick));
+				if ((y + 1) * World.GRID_SIZE <= this.renderer.getTransform().position.y) {
+					y++;
+					renderer.getTransform().position.y = y * World.GRID_SIZE;
+					isWalking = false;
+				}
+				break;
+			case UP:
+				renderer.translate(0, (float) (-speed * tick));
+				if ((y - 1) * World.GRID_SIZE >= this.renderer.getTransform().position.y) {
+					y--;
+					renderer.getTransform().position.y = y * World.GRID_SIZE;
+					isWalking = false;
+				}
+				break;
 			}
+			if(!isWalking)
+				placeRenderer(x, y);
 		}
 	}
 	
@@ -181,7 +192,7 @@ public class Entity {
 	}
 	
 	public void draw() {
-		pawn.draw();
+		renderer.draw();
 	}
 	
 	public void destroy() {

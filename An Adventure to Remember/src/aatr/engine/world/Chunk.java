@@ -74,8 +74,7 @@ public class Chunk {
 		
 		tiles[x][y] = tile.setTileSet(tileSet);
 		
-		renderer.getMesh().changeVBOData(Vertex.SIZE * (y * GRID_DIMENSIONS + x), Util.toFloatBuffer(tile.getVertices()));
-		System.out.println(Vertex.SIZE * (y * GRID_DIMENSIONS + x));
+		renderer.getMesh().changeVBOData(Vertex.SIZE * Vertex.LENGTH * (y * GRID_DIMENSIONS + x), Util.toFloatBuffer(tile.getVertices()));
 	}
 	
 	public Tile getTile(int x, int y) {
