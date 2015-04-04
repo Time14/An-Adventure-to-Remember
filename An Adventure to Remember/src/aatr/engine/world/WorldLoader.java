@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;
+import aatr.engine.world.tile.TileSet;
 
 public final class WorldLoader {
 	
@@ -45,21 +46,21 @@ public final class WorldLoader {
 			Tile[][] borderChunkTiles = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
 			for (int x = 0; x < Chunk.GRID_DIMENSIONS; x += 2) {
 				for (int y = 0; y < Chunk.GRID_DIMENSIONS; y += 2) {
-					borderChunkTiles[x][y] = new Tile(ts, id1);
-					borderChunkTiles[x + 1][y] = new Tile(ts, id2);
-					borderChunkTiles[x + 1][y + 1] = new Tile(ts, id4);
-					borderChunkTiles[x][y + 1] = new Tile(ts, id3);
+					borderChunkTiles[x][y] = new Tile(id1);
+					borderChunkTiles[x + 1][y] = new Tile(id2);
+					borderChunkTiles[x + 1][y + 1] = new Tile(id4);
+					borderChunkTiles[x][y + 1] = new Tile(id3);
 				}
 			}
 			
-			Tile[] border = new Tile[] { new Tile(ts, id1), new Tile(ts, id2),
-					new Tile(ts, id3), new Tile(ts, id4) };
+			Tile[] border = new Tile[] { new Tile(id1), new Tile(id2),
+					new Tile(id3), new Tile(id4) };
 
 			// Loading chunks
 			Chunk[][] map = new Chunk[width][height];
 			
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
 					
 					Tile[][] chunkData = new Tile[Chunk.GRID_DIMENSIONS][Chunk.GRID_DIMENSIONS];
 					
@@ -78,7 +79,6 @@ public final class WorldLoader {
 									repeatCount = 0;
 									repeatAmt = mapData.getShort();
 									repeatTd = mapData.getShort();
-									System.out.println(repeatTd + "\t" + repeatAmt);
 									td = repeatTd;
 								}
 							} else {
@@ -90,16 +90,16 @@ public final class WorldLoader {
 							if(repeat)
 								td = repeatTd;
 							
-							chunkData[i][j] = new Tile(ts, td);
+							chunkData[i][j] = new Tile(td, x * Chunk.GRID_DIMENSIONS + i, y * Chunk.GRID_DIMENSIONS + j);
 						}
 					}
 					
-					map[x][y] = new Chunk(chunkData);
+					map[x][y] = new Chunk(chunkData, TileSet.tileSets.get(ts));
 				}
 			}
 
-			return new WorldData(width, height, map, border, new Chunk(
-					borderChunkTiles));
+			return new WorldData(width, height, ts, map, border, new Chunk(
+					borderChunkTiles, TileSet.tileSets.get(ts)));
 
 		} catch (IOException e) {
 			System.err.println("Error 404 file not found \"" + path + "\"");

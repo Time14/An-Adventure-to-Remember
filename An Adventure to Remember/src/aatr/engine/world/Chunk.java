@@ -1,25 +1,30 @@
 package aatr.engine.world;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL11.*;
 
 import aatr.engine.gfx.mesh.Mesh;
 import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
 import aatr.engine.gfx.renderer.Renderer;
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;
+import aatr.engine.world.tile.TileSet;
 
 public class Chunk {
 
 	public static final int GRID_DIMENSIONS = 16;
-
+	
+	private TileSet tileSet;
+	
 	private Tile[][] tiles = new Tile[GRID_DIMENSIONS][GRID_DIMENSIONS];
-
+	
 	private Vertex[] verts;
-
+	
 	private Renderer renderer;
-
+	
 	//#EdvardQuickFix!
 	private static Tile[][] convertTiles(Tile[] tiles) {
 		Tile[][] tiles2D = new Tile[GRID_DIMENSIONS][GRID_DIMENSIONS];
@@ -31,13 +36,14 @@ public class Chunk {
 		return tiles2D;
 	}
 
-	public Chunk(Tile[] tiles) {
-		this(convertTiles(tiles));
+	public Chunk(Tile[] tiles, TileSet tileSet) {
+		this(convertTiles(tiles), tileSet);
 	}
 
 
-	public Chunk(Tile[][] tiles) {
+	public Chunk(Tile[][] tiles, TileSet tileSet) {
 		this.tiles = tiles;
+		this.tileSet = tileSet;
 		init();
 	}
 
@@ -48,7 +54,7 @@ public class Chunk {
 
 			for (int y = 0; y < tiles[x].length; y++) {
 
-				Vertex[] vertHolder = tiles[x][y].getVertices(x, y);
+				Vertex[] vertHolder = tiles[x][y].getVertices(tileSet, x, y);
 
 				for (int i = 0; i < vertHolder.length; i++) {
 					verts[(int) (x * (vertHolder.length) + i + GRID_DIMENSIONS
@@ -57,14 +63,25 @@ public class Chunk {
 			}
 		}
 
-		renderer = new Renderer(new Mesh(verts).setMode(GL11.GL_QUADS), tiles[0][0]
+		renderer = new Renderer(new Mesh(verts, GL15.GL_DYNAMIC_DRAW).setMode(GL11.GL_QUADS), tiles[0][0]
 				.getTileSet().getTexture());
 	}
-
+	
+	public void setTile(Tile tile) {
+		
+		int x = tile.getX() % GRID_DIMENSIONS;
+		int y = tile.getY() % GRID_DIMENSIONS;
+		
+		tiles[x][y] = tile.setTileSet(tileSet);
+		
+		renderer.getMesh().changeVBOData(Vertex.SIZE * (y * GRID_DIMENSIONS + x), Util.toFloatBuffer(tile.getVertices()));
+		System.out.println(Vertex.SIZE * (y * GRID_DIMENSIONS + x));
+	}
+	
 	public Tile getTile(int x, int y) {
 		return tiles[x][y];
 	}
-
+	
 	public void destroy() {
 		for (Tile[] ts : tiles)
 			for (Tile t : ts)

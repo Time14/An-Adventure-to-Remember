@@ -21,17 +21,12 @@ public class Tile {
 	
 	private ArrayList<TileProperty> properties;
 	
-	public Tile(int tileSetID, int id) {
-		this(TileSet.tileSets.get(tileSetID), id, -1, -1);
+	public Tile(int id) {
+		this(id, -1, -1);
 	}
 	
-	public Tile(int tileSetID, int id, int x, int y) {
-		this(TileSet.tileSets.get(tileSetID), id, x, y);
-	}
-	
-	public Tile(TileSet tileSet, int id, int x, int y) {
+	public Tile(int id, int x, int y) {
 		this.id = id;
-		this.tileSet = tileSet;
 		this.x = x;
 		this.y = y;
 		this.properties = new ArrayList<TileProperty>();
@@ -39,10 +34,12 @@ public class Tile {
 	
 	
 	public Vertex[] getVertices() {
-		return getVertices(x, y);
+		return getVertices(tileSet, x, y);
 	}
 	
-	public Vertex[] getVertices(int x, int y) {
+	public Vertex[] getVertices(TileSet ts, int x, int y) {
+		if(tileSet != ts)
+			tileSet = ts;
 		if(id == -1)
 			return null;
 		Vertex[] verts = new Vertex[4];
@@ -60,9 +57,22 @@ public class Tile {
 		return tileSet;
 	}
 	
+	public Tile setTileSet(TileSet tileSet) {
+		this.tileSet = tileSet;
+		return this;
+	}
+	
 	public void destroy() {
 		//TODO Add in a destroy 
 		return;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 	
 	public Tile addProperty(TileProperty... tp) {
