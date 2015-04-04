@@ -40,7 +40,6 @@ public class AudioSource {
 	}
 	
 	public void update(double tick) {
-		if(id == 1)System.out.println(AL10.alGetSourcef(id, AL10.AL_GAIN));
 		adjustGain(tick);
 		adjustPitch(tick);
 	}
@@ -51,7 +50,6 @@ public class AudioSource {
 			if(gain >= targetGain)
 				setGain(targetGain);
 		} else if(gain > targetGain) {
-//			System.out.println((float)tick * deltaGain);
 			addGain((float)tick * deltaGain);
 			if(gain <= targetGain) {
 				setGain(targetGain);

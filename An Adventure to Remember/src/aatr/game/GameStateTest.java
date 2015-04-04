@@ -2,6 +2,7 @@ package aatr.game;
 
 import org.lwjgl.input.Keyboard;
 
+import aatr.engine.ai.Player;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateManager;
 import aatr.engine.gamestate.GameStateWorld;
@@ -14,7 +15,6 @@ import aatr.engine.gfx.texture.RenderableTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.World;
 import aatr.engine.world.entity.EntityManager;
-import aatr.engine.world.player.Player;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameStateTest extends GameStateWorld {
@@ -35,11 +35,10 @@ public class GameStateTest extends GameStateWorld {
 	}
 
 	public void checkKeyboard(int key, boolean pressed) {
-		player.checkKeyboard(key, pressed);
+		Player.checkKeyboard(key, pressed);
 	}
 	
 	public String getDefaultWorldPath() {
 		return "res/map/maps/test2.map";
 	}
-
 }

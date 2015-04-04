@@ -1,10 +1,8 @@
 package aatr.engine.world;
 
-import aatr.engine.gfx.mesh.Mesh;
-import aatr.engine.world.player.Player;
+import aatr.engine.world.entity.Entity;
 import aatr.engine.world.tile.Tile;
 import aatr.engine.world.tile.TileProperty;
-import aatr.engine.world.tile.TileSet;
 
 public class World {
 	public static final int GRID_SIZE = 16;
@@ -79,7 +77,7 @@ public class World {
 		return map[cx][cy].getTile(x, y);
 	}
 
-	public void draw(Player player) {
+	public void draw(Entity player) {
 		int x = ((int) (player.getX() - player.getX() % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS)
 				- MAX_DRAWDISTANCE;
 		int y = ((int) (player.getY() - player.getY() % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS)

@@ -2,6 +2,8 @@ package aatr.engine.world.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import aatr.engine.gamestate.GameState;
 
@@ -16,6 +18,21 @@ public class EntityManager {
 		entities = new HashMap<>();
 		groups = new HashMap<>();
 		this.gs = gs;
+	}
+	
+	public boolean isFree(int x, int y, int layer) {
+		Iterator<Entry<String, Entity>> it = entities.entrySet().iterator();
+		while(it.hasNext()) {
+			Entry<String, Entity> pair = (Entry)it.next();
+			Entity e = pair.getValue();
+			if(layer == e.getLayer()) {
+				if(x == e.getX())
+					return false;
+				if(y == e.getY())
+					return false;
+			}
+		}
+		return false;
 	}
 	
 	public void update(double tick) {
