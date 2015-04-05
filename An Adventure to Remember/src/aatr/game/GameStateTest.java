@@ -2,6 +2,7 @@ package aatr.game;
 
 import org.lwjgl.input.Keyboard;
 
+import aatr.engine.ai.DrunkenWalkController;
 import aatr.engine.ai.PlayerController;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateManager;
@@ -14,12 +15,15 @@ import aatr.engine.gfx.renderer.Renderer;
 import aatr.engine.gfx.texture.RenderableTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.World;
+import aatr.engine.world.entity.Entity;
 import aatr.engine.world.entity.EntityManager;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GameStateTest extends GameStateWorld {
 
 	public static final int STATE_ID = 0;
+	
+	private Entity dude;
 
 	public GameStateTest(GameStateManager gsm) {
 		super(gsm, STATE_ID);

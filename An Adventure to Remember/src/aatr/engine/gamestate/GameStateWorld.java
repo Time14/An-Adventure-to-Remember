@@ -1,5 +1,6 @@
 package aatr.engine.gamestate;
 
+import aatr.engine.ai.DrunkenWalkController;
 import aatr.engine.ai.PawnController;
 import aatr.engine.ai.PlayerController;
 import aatr.engine.debug.Debug;
@@ -12,6 +13,8 @@ public abstract class GameStateWorld extends GameState {
 	//Max 8 layers
 	protected World[] worlds;
 	protected Entity player;
+	protected Entity dude;
+	protected DrunkenWalkController dudeController;
 	protected PlayerController controller;
 	protected EntityManager em;
 	
@@ -29,6 +32,12 @@ public abstract class GameStateWorld extends GameState {
 		player.bindController((PawnController) controller);
 		
 		player.placeRenderer(5, 5);
+		
+		dude = new Entity(this);
+		dudeController =  new DrunkenWalkController(5, 10, 10);
+		dudeController.setWalkOdds(500);
+		dude.bindController(dudeController);
+		dude.placeRenderer(10, 10);
 	}
 	
 	@Override
@@ -45,7 +54,8 @@ public abstract class GameStateWorld extends GameState {
 				worlds[l].draw(player);
 			if(l == layer) 
 				player.draw();
-		}	
+		}
+		em.draw();
 	}
 
 	@Override

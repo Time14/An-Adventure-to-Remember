@@ -28,6 +28,7 @@ public class PlayerController extends PawnController {
 		
 		isWalking = pawn.getIsWalking();
 		
+		pawn.setFaceDirection(direction);
 		
 		if(!isWalking && STB.done(STB_PLAYER_TIMER)) {
 			if(w) {
@@ -68,7 +69,7 @@ public class PlayerController extends PawnController {
 			switch (key) {
 			case Keyboard.KEY_A:
 				if(direction != Direction.LEFT) {
-					direction = Direction.LEFT;
+					direction = Direction.LEFT; 
 					STB.reset(STB_PLAYER_TIMER);
 				}
 				break;

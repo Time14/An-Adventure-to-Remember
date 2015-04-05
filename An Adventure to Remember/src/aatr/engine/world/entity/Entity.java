@@ -21,8 +21,6 @@ public class Entity {
 	
 	protected boolean isWalking;
 	
-	protected boolean autoFace = false;
-
 	protected EntityManager em;
 	
 	protected Renderer renderer;
@@ -49,7 +47,9 @@ public class Entity {
 		faceDirection = Direction.UP;
 		
 		em = gameState.getEntityManager();
-		em.addToGroup(EntityManager.ENTITIES_GROUP, this);
+		em.addToGroup(
+				EntityManager.ENTITIES_GROUP
+				, this);
 	}
 	
 	public EntityManager getEntityManager() {
@@ -96,11 +96,6 @@ public class Entity {
 	
 	public Entity setLayer(int layer) {
 		this.layer = layer;
-		return this;
-	}
-	
-	public Entity setAutoFace(boolean autoFace) {
-		this.autoFace = autoFace;
 		return this;
 	}
 	
