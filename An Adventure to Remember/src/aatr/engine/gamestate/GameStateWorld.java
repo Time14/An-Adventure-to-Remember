@@ -3,6 +3,7 @@ package aatr.engine.gamestate;
 import aatr.engine.ai.DrunkenWalkController;
 import aatr.engine.ai.PawnController;
 import aatr.engine.ai.PlayerController;
+import aatr.engine.ai.QuedController;
 import aatr.engine.debug.Debug;
 import aatr.engine.world.World;
 import aatr.engine.world.entity.Entity;
@@ -14,7 +15,7 @@ public abstract class GameStateWorld extends GameState {
 	protected World[] worlds;
 	protected Entity player;
 	protected Entity dude;
-	protected DrunkenWalkController dudeController;
+	protected QuedController dudeController;
 	protected PlayerController controller;
 	protected EntityManager em;
 	
@@ -34,8 +35,7 @@ public abstract class GameStateWorld extends GameState {
 		player.placeRenderer(5, 5);
 		
 		dude = new Entity(this);
-		dudeController =  new DrunkenWalkController(5, 10, 10);
-		dudeController.setWalkOdds(500);
+		dudeController =  new QuedController(true, "wwsswwddaa");
 		dude.bindController(dudeController);
 		dude.placeRenderer(10, 10);
 	}
