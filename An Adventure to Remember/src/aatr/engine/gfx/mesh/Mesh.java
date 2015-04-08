@@ -15,6 +15,14 @@ import aatr.engine.util.Util;
 
 public class Mesh {
 	
+	/*
+	 * x = X world pos
+	 * y = Y world pos
+	 * s = X texcoord
+	 * t = Y texcoord
+	 * x, y, s, t, x, y, s, t
+	 */
+	
 	private static int currentVAO = -2;
 	
 	private int vao = -2;

@@ -9,58 +9,101 @@ public abstract class Animation {
 		
 	protected int frame;
 	protected int[] frames;
-	protected double frameLength;
+	protected float frameLength;
 	
 	protected float animationSpeed;
-	protected boolean isRepeatable;
+	protected boolean isRepeating;
+	protected boolean playing;
+	protected boolean needsUpdate;
 	
 	protected Texture texture;
 	
 	protected Entity pawn;
 
-	abstract void bindPawn(Entity pawn);
+	public Animation() {
+		frameLength = .1f;
+		animationSpeed = 1;
+		playing = true;
+		needsUpdate = true;
+		isRepeating = true;
+		frame = 0;
+	}
+	
+	public Animation bindPawn(Entity pawn) {
+		this.pawn = pawn;
+		return this;
+	}
 	public Entity getPawn() {
 		return pawn;
 	}
 	
-	abstract void bindTexture(Texture texture);
+	public Animation bindTexture(Texture texture) {
+		this.texture = texture;
+		return this;
+	}
 	public Texture getTexture() {
 		return texture;
 	}
 	
-	public void nextFrame() {
+	public Animation nextFrame() {
+		needsUpdate = true;
 		frame++;
 		frame %= frames.length;
+		return this;
 	}
-	public void previousFrame() {
+	public Animation previousFrame() {
+		needsUpdate = true;
 		frame--;
 		if(frame < 0) 
 			frame = frames.length - 1;
+		return this;
 	}
 	
 	public int getFrame() {
 		return frame;
 	}
-	public void setFrame(int frame) {
+	public Animation setFrame(int frame) {
+		needsUpdate = true;
 		this.frame = frame % frames.length;
+		return this;
 	}
 	
 	public float getAnimationSpeed() {
 		return animationSpeed;
 	}
-	public void setAnimationSpeed(float animationSpeed) {
+	public Animation setAnimationSpeed(float animationSpeed) {
 		this.animationSpeed = animationSpeed;
+		return this;
 	}
 	
-	public boolean isRepeatable() {
-		return isRepeatable;
+	public boolean isRepeating() {
+		return isRepeating;
 	}
-	public void setRepeatable(boolean isRepeatable) {
-		this.isRepeatable = isRepeatable;
+	public Animation setRepeatable(boolean isRepeatable) {
+		this.isRepeating = isRepeatable;
+		return this;
 	}
 	
-	abstract void update(double tick);
+	public boolean isPlaying() {
+		return playing;
+	}
 	
-	abstract void draw();
+	public Animation stop() {
+		playing = false;
+		return this;
+	}
+	
+	public Animation play() {
+		playing = true;
+		return this;
+	}
+	
+	public Animation setPlaying(boolean isPlaying) {
+		this.playing = isPlaying;
+		return this;
+	}
+	
+	
+	public abstract Animation update(double tick);
 	
 }

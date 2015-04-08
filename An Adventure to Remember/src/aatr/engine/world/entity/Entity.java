@@ -4,6 +4,7 @@ import aatr.engine.ai.Direction;
 import aatr.engine.ai.PawnController;
 import aatr.engine.debug.Debug;
 import aatr.engine.gamestate.GameStateWorld;
+import aatr.engine.gfx.animation.Animation;
 import aatr.engine.gfx.renderer.QuadRenderer;
 import aatr.engine.gfx.renderer.Renderer;
 import aatr.engine.world.World;
@@ -24,6 +25,8 @@ public class Entity {
 	protected EntityManager em;
 	
 	protected Renderer renderer;
+	
+	protected Animation animation;
 	
 	protected PawnController controller;
 	
@@ -62,6 +65,11 @@ public class Entity {
 	
 	public Entity bindController(PawnController controller) {
 		this.controller = controller;
+		return this;
+	}
+	
+	public Entity bindAnimation(Animation animation) {
+		this.animation = animation;
 		return this;
 	}
 	
@@ -137,6 +145,9 @@ public class Entity {
 	}
 	
 	public void update(double tick) {
+		if(animation != null) {
+			animation.update(tick);
+		}
 		controller.control(this);
 		updateWalk(tick);
 	}

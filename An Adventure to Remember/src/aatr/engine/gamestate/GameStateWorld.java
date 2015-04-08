@@ -5,6 +5,8 @@ import aatr.engine.ai.PawnController;
 import aatr.engine.ai.PlayerController;
 import aatr.engine.ai.QuedController;
 import aatr.engine.debug.Debug;
+import aatr.engine.gfx.animation.AnimatedTexture;
+import aatr.engine.gfx.texture.TextureLibrary;
 import aatr.engine.world.World;
 import aatr.engine.world.entity.Entity;
 import aatr.engine.world.entity.EntityManager;
@@ -28,11 +30,14 @@ public abstract class GameStateWorld extends GameState {
 		worlds = new World[8];
 		worlds[0] = new World(getDefaultWorldPath());
 		em = new EntityManager(this);
+		
 		player = new Entity(this);
 		controller = new PlayerController();
 		player.bindController((PawnController) controller);
 		
 		player.placeRenderer(5, 5);
+		
+		player.bindAnimation(new AnimatedTexture(player, "TileSet_0", 8, 8, 0, 1, 0, 2, 0, 3, 4).setAnimationSpeed(0.2f));
 		
 		dude = new Entity(this);
 		dudeController =  new QuedController(true, "wwsswwddaa");
