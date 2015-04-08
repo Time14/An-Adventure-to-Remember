@@ -10,8 +10,10 @@ import static org.lwjgl.opengl.GL31.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import aatr.engine.gfx.renderer.Renderer;
 import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.util.Util;
+import aatr.engine.world.entity.Entity;
 
 public class Mesh {
 	
@@ -146,5 +148,19 @@ public class Mesh {
 			System.out.print(",IBO: " + ibo);
 		}
 		System.out.println();
+	}
+	
+	final synchronized static public void junkMethod(String pawn) {
+		for(int i = 0; i < 1000000; i++) {
+			pawn += "hej";
+		}
+		return;
+	}
+	
+	final synchronized static public void junkMethod(Entity pawn) {
+		for(int i = 0; i < 1000000; i++) {
+			pawn.bindRenderer(new Renderer().sendMesh(new Mesh()));
+		}
+		return;
 	}
 }

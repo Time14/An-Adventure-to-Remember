@@ -3,7 +3,7 @@ package aatr.engine.gamestate;
 import aatr.engine.ai.DrunkenWalkController;
 import aatr.engine.ai.PawnController;
 import aatr.engine.ai.PlayerController;
-import aatr.engine.ai.QuedController;
+import aatr.engine.ai.QueuedController;
 import aatr.engine.debug.Debug;
 import aatr.engine.gfx.animation.AnimatedTexture;
 import aatr.engine.gfx.texture.TextureLibrary;
@@ -17,7 +17,7 @@ public abstract class GameStateWorld extends GameState {
 	protected World[] worlds;
 	protected Entity player;
 	protected Entity dude;
-	protected QuedController dudeController;
+	protected QueuedController dudeController;
 	protected PlayerController controller;
 	protected EntityManager em;
 	
@@ -37,10 +37,10 @@ public abstract class GameStateWorld extends GameState {
 		
 		player.placeRenderer(5, 5);
 		
-		player.bindAnimation(new AnimatedTexture(player, "TileSet_0", 8, 8, 0, 1, 0, 2, 0, 3, 4).setAnimationSpeed(0.2f));
+		player.bindAnimation(new AnimatedTexture(player, 8, 8, "TileSet_0", 0, 1, 0, 2, 0, 3, 4).setAnimationSpeed(0.2f));
 		
 		dude = new Entity(this);
-		dudeController =  new QuedController(true, "wwsswwddaa");
+		dudeController =  new QueuedController(true, "wwsswwddaa");
 		dude.bindController(dudeController);
 		dude.placeRenderer(10, 10);
 	}

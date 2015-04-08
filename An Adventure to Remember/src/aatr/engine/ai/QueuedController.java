@@ -8,7 +8,7 @@ import aatr.engine.debug.Debug;
 import aatr.engine.world.entity.Entity;
 import aatr.engine.world.tile.TileProperty;
 
-public class QuedController extends PawnController{
+public class QueuedController extends PawnController{
 	
 	
 	private String actionsList;
@@ -24,7 +24,7 @@ public class QuedController extends PawnController{
 	 * "d" = right
 	 */
 	
-	public QuedController(boolean repeat, String commands) {
+	public QueuedController(boolean repeat, String commands) {
 		setCommands(commands);
 		checkCollision = true;
 		actions.peek();
@@ -55,10 +55,10 @@ public class QuedController extends PawnController{
 				actions.add(Direction.LEFT);
 				break;
 			case('S'):
-				actions.add(Direction.RIGHT);
+				actions.add(Direction.DOWN);
 				break;
 			case('D'):
-				actions.add(Direction.DOWN);
+				actions.add(Direction.RIGHT);
 				break;
 			default:
 				Debug.log("You enterd an unknown command");
