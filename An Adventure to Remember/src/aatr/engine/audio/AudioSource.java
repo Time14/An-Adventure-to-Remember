@@ -51,7 +51,6 @@ public class AudioSource {
 			if(gain >= targetGain)
 				setGain(targetGain);
 		} else if(gain > targetGain) {
-//			System.out.println((float)tick * deltaGain);
 			addGain((float)tick * deltaGain);
 			if(gain <= targetGain) {
 				setGain(targetGain);

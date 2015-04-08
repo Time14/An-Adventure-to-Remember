@@ -1,19 +1,32 @@
 package aatr.engine.gfx.texture;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL21.*;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL31.*;
-import static org.lwjgl.opengl.GL32.*;
+import static org.lwjgl.opengl.GL11.GL_CLAMP;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_REPEAT;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_BGRA;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL31.GL_TEXTURE_RECTANGLE;
 
 import java.awt.image.BufferedImage;
 import java.security.InvalidParameterException;
 
-import aatr.engine.gfx.shader.ShaderProgram;
+import org.lwjgl.opengl.GL31;
+
+import aatr.engine.debug.Debug;
+import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.util.Loader;
 import aatr.engine.util.Util;
 
@@ -23,17 +36,27 @@ public class Texture {
 	protected int width  	= -2;
 	protected int height 	= -2;
 	
+	protected int target;
+	
 	public Texture() {}
 	
 	public Texture(String path) {
 		this(path, false);
 	}
 	
-	public Texture(String path, boolean repeat) {
-		loadTexture(path, repeat);
+	public Texture(int target, String path) {
+		this(target, path, false);
 	}
 	
-	public Texture loadTexture(String path, boolean repeat) {
+	public Texture(int target, String path, boolean repeat) {
+		loadTexture(target, path, repeat);
+	}
+	
+	public Texture(String path, boolean repeat) {
+		loadTexture(GL_TEXTURE_2D, path, repeat);
+	}
+	
+	public Texture loadTexture(int target, String path, boolean repeat) {
 		try {
 			BufferedImage image = Loader.loadImage(path);
 			
@@ -43,7 +66,7 @@ public class Texture {
 			int[] pixels = new int[width * height];
 			image.getRGB(0, 0, width, height, pixels, 0, width);
 		
-			genTexture(pixels, repeat, width, height);
+			genTexture(target, pixels, repeat, width, height);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -51,39 +74,53 @@ public class Texture {
 		return this;
 	}
 	
-	public Texture genTexture(int[] pixels, boolean repeat, int width, int height) {
+	public Texture genTexture(int target, int[] pixels, boolean repeat, int width, int height) {
 		this.width = width;
 		this.height = height;
+		this.target = target;
 		
 		id = glGenTextures();
 		
-		glBindTexture(GL_TEXTURE_2D, id);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		if(target == GL31.GL_TEXTURE_RECTANGLE)
+			repeat = false;
+		
+		glBindTexture(target, id);
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
 		if(repeat) {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		} else {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+			glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP);
 		}
 		
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, Util.toIntBuffer(pixels));
+		glTexImage2D(target, 0, GL_RGBA, width, height, 0, GL_BGRA, GL_UNSIGNED_BYTE, Util.toIntBuffer(pixels));
 		
 		System.out.println("Generated new texture with ID: " + id);
 		
 		return this;
 	}
 	
-	public Texture bind(int target) {
+	public Texture bind(int texTarget) {
 		
-		if(target > 31 || target < 0) {
-			throw new InvalidParameterException("Target must be in range 0 - 31");
+		switch(target) {
+		case GL_TEXTURE_2D:
+			OrthographicShaderProgram.INSTANCE.sendBoolean("b_rect", false);
+			break;
+		case GL_TEXTURE_RECTANGLE:
+			OrthographicShaderProgram.INSTANCE.sendBoolean("b_rect", true);
+			break;
 		}
 		
-		glActiveTexture(GL_TEXTURE0 + target);
-		glBindTexture(GL_TEXTURE_2D, id);
+		if(texTarget > 31 || texTarget < 0) {
+			throw new InvalidParameterException("Texture target must be in range 0 - 31");
+		}
+		
+		unbind(texTarget);
+		glActiveTexture(GL_TEXTURE0 + texTarget);
+		glBindTexture(target, id);
 		return this;
 	}
 	
@@ -94,7 +131,7 @@ public class Texture {
 	public Texture setParameters(int param, int... pnames) {
 		bind();
 		for(int i : pnames)
-			glTexParameteri(GL_TEXTURE_2D, i, param);
+			glTexParameteri(target, i, param);
 		return this;
 	}
 	
@@ -115,6 +152,7 @@ public class Texture {
 		
 		glActiveTexture(GL_TEXTURE0 + target);
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_RECTANGLE, 0);
 	}
 	
 	public int getWidth() {
@@ -123,6 +161,10 @@ public class Texture {
 	
 	public int getHeight() {
 		return height;
+	}
+	
+	public int getTarget() {
+		return target;
 	}
 	
 	public int getID() {

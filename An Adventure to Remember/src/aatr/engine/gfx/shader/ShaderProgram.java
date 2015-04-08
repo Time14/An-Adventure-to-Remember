@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -12,7 +13,6 @@ import org.lwjgl.util.vector.Vector4f;
 import aatr.engine.gfx.shader.StructDefiner.GLSLType;
 import aatr.engine.util.Loader;
 import aatr.engine.util.Util;
-
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -224,7 +224,7 @@ public abstract class ShaderProgram {
 	
 	public ShaderProgram sendBoolean(String target, boolean bool) {
 		bind();
-		glUniform1i(ul.get(target), bool ? 1 : 0);
+		glUniform1i(ul.get(target), bool ? GL11.GL_TRUE : GL11.GL_FALSE);
 		return this;
 	}
 	

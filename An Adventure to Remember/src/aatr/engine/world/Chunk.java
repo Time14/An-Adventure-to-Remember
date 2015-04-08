@@ -2,13 +2,10 @@ package aatr.engine.world;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL11.*;
 
 import aatr.engine.gfx.mesh.Mesh;
-import aatr.engine.gfx.mesh.Transform;
 import aatr.engine.gfx.mesh.Vertex;
 import aatr.engine.gfx.renderer.Renderer;
-import aatr.engine.gfx.shader.OrthographicShaderProgram;
 import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;
 import aatr.engine.world.tile.TileSet;
@@ -74,8 +71,7 @@ public class Chunk {
 		
 		tiles[x][y] = tile.setTileSet(tileSet);
 		
-		renderer.getMesh().changeVBOData(Vertex.SIZE * (y * GRID_DIMENSIONS + x), Util.toFloatBuffer(tile.getVertices()));
-		System.out.println(Vertex.SIZE * (y * GRID_DIMENSIONS + x));
+		renderer.getMesh().changeVBOData(Vertex.SIZE * Vertex.LENGTH * (y * GRID_DIMENSIONS + x), Util.toFloatBuffer(tile.getVertices()));
 	}
 	
 	public Tile getTile(int x, int y) {
@@ -97,6 +93,10 @@ public class Chunk {
 					i++;
 
 		return i;
+	}
+	
+	public TileSet getTileSet() {
+		return tileSet;
 	}
 
 	public Chunk draw() {

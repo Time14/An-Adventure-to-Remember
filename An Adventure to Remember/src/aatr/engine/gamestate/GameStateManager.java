@@ -8,6 +8,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import aatr.engine.core.GameCore;
+import aatr.engine.debug.Debug;
 import aatr.engine.gfx.Window;
 
 public class GameStateManager {

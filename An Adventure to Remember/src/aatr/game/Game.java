@@ -30,9 +30,7 @@ public class Game extends GameCore {
 	}
 	
 	public void registerTextures(TextureLibrary texLib) {
-		TextureLibrary.registerTexture("Place Holder", new Texture("res/Art/PlaceHolderArt.png"));
-		TextureLibrary.registerTexture("Renderable Texture",
-				new RenderableTexture(128, 128, GL11.GL_RGBA, new int[]{GL30.GL_COLOR_ATTACHMENT0}, false));
+		
 	}
 	
 	public void registerGameStates(GameStateManager gsm) {

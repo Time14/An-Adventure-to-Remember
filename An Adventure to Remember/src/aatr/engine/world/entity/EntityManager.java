@@ -2,10 +2,15 @@ package aatr.engine.world.entity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
+import aatr.engine.debug.Debug;
 import aatr.engine.gamestate.GameState;
 
 public class EntityManager {
+	
+	public static final String ENTITIES_GROUP = "Entities";
 	
 	private GameState gs;
 	
@@ -15,11 +20,32 @@ public class EntityManager {
 	public EntityManager(GameState gs) {
 		entities = new HashMap<>();
 		groups = new HashMap<>();
+		addGroup(ENTITIES_GROUP);
 		this.gs = gs;
+	}
+
+	public boolean isFree(int x, int y, int layer) {
+		for(Entity e : entities.values()) {
+			if(layer == e.getLayer()) {
+				if(x == Math.floor(e.getX()) && y == Math.floor(e.getY()) || x == Math.ceil(e.getX()) && y == Math.ceil(e.getY()))
+					return false;
+			}
+		}
+		for(Group g : groups.values()) {
+			for(Entity e : g.entities) {
+				if(layer == e.getLayer()) {
+					if(x == Math.floor(e.getX()) && y == Math.floor(e.getY()) || x == Math.ceil(e.getX()) && y == Math.ceil(e.getY()))
+						return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	public void update(double tick) {
 		for(Entity e : entities.values()) {
+			Debug.log("001");
 			e.update(tick);
 		}
 		

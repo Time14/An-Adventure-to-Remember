@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector2f;
 
-import aatr.engine.debug.Debug;
 import aatr.engine.gfx.mesh.Vertex;
-import aatr.engine.gfx.renderer.QuadRenderer;
 import aatr.engine.world.World;
+
 
 public class Tile {
 	

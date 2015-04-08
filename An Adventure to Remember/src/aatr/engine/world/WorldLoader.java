@@ -1,13 +1,11 @@
 package aatr.engine.world;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 
 import aatr.engine.util.Util;
 import aatr.engine.world.tile.Tile;

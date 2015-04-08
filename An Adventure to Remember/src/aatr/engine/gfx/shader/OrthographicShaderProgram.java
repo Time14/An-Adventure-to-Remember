@@ -1,11 +1,11 @@
 package aatr.engine.gfx.shader;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector4f;
 
 import aatr.engine.gfx.Window;
 import aatr.engine.gfx.mesh.Vertex;
@@ -20,6 +20,8 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		
 		sendMatrix("m_projection", getProjection());
 		sendInt("t_sampler", 0);
+		sendInt("tr_sampler", 0);
+		sendBoolean("b_rect", false);
 	}
 	
 	protected void registerUniformLocations() {
@@ -27,6 +29,8 @@ public class OrthographicShaderProgram extends ShaderProgram {
 		registerUniformLocation("m_transform");
 		registerUniformLocation("m_view");
 		registerUniformLocation("t_sampler");
+		registerUniformLocation("tr_sampler");
+		registerUniformLocation("b_rect");
 	}
 	
 	public void initAttributes() {

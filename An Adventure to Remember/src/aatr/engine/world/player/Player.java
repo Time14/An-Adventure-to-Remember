@@ -6,9 +6,9 @@ import sk.stb.STB;
 import aatr.engine.gamestate.GameState;
 import aatr.engine.gamestate.GameStateWorld;
 import aatr.engine.gfx.renderer.QuadRenderer;
-import aatr.engine.world.tile.TileProperty;
 import aatr.engine.world.Chunk;
 import aatr.engine.world.World;
+import aatr.engine.world.tile.TileProperty;
 
 public class Player extends QuadRenderer {
 

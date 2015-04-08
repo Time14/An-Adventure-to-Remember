@@ -1,7 +1,7 @@
 package aatr.engine.world;
 
-import aatr.engine.gfx.mesh.Mesh;
-import aatr.engine.world.player.Player;
+import aatr.engine.debug.Debug;
+import aatr.engine.world.entity.Entity;
 import aatr.engine.world.tile.Tile;
 import aatr.engine.world.tile.TileProperty;
 import aatr.engine.world.tile.TileSet;
@@ -17,7 +17,9 @@ public class World {
 	// public World() {
 	// initTestChunk();
 	// }
-
+	
+	public World() {}
+	
 	public World(String mapPath) {
 		loadMap(mapPath);
 	}
@@ -55,19 +57,27 @@ public class World {
 	public World loadMap(String mapPath) {
 		if (mapPath == null)
 			return this;
-
-		WorldData worldData = WorldLoader.loadMapFromFile(mapPath);
-
+		
+		return loadMap(WorldLoader.loadMapFromFile(mapPath));
+	}
+	
+	public World loadMap(WorldData worldData) {
+		
 		map = worldData.CHUNKS;
 		borderChunk = worldData.BORDER_CHUNK;
-
+		
 		return this;
 	}
 
 	public void setTile(Tile tile) {
-		map[(int) Math.floor(((float) tile.getX() / Chunk.GRID_DIMENSIONS))][(int) Math
-				.floor(((float) tile.getY() / Chunk.GRID_DIMENSIONS))]
-				.setTile(tile);
+		
+		int cx = (int)Math.floor(((float) tile.getX() / Chunk.GRID_DIMENSIONS));
+		int cy = (int)Math.floor(((float) tile.getY() / Chunk.GRID_DIMENSIONS));
+		
+		if(cx > map.length - 1 || cy > map[0].length - 1 || cx < 0 || cy < 0)
+			return;
+		
+		map[cx][cy].setTile(tile);
 	}
 
 	public Tile getTile(int x, int y) {
@@ -85,8 +95,12 @@ public class World {
 			return new Tile(0).addProperty(TileProperty.SOLID);
 		return map[cx][cy].getTile(x, y);
 	}
-
-	public void draw(Player player) {
+	
+	public TileSet getTileSet() {
+		return map[0][0].getTileSet();
+	}
+	
+	public void draw(Entity player) {
 		int x = ((int) (player.getX() - player.getX() % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS)
 				- MAX_DRAWDISTANCE;
 		int y = ((int) (player.getY() - player.getY() % Chunk.GRID_DIMENSIONS) / Chunk.GRID_DIMENSIONS)

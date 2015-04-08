@@ -8,6 +8,7 @@ import java.nio.ByteOrder;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.GL31;
 import org.lwjgl.util.vector.Vector2f;
 
 import aatr.engine.gfx.texture.Texture;
@@ -58,10 +59,10 @@ public class TileSet {
 			int x = i % tilesX;
 			int y = i / tilesX;
 			
-			texCoords[i][0] = new Vector2f((x * tileSize)/((float)width), (y * tileSize)/((float)height));
-			texCoords[i][1] = new Vector2f(((x + 1) * tileSize)/((float)width), (y * tileSize)/((float)height));
-			texCoords[i][2] = new Vector2f(((x + 1) * tileSize)/((float)width), ((y + 1) * tileSize)/((float)height));
-			texCoords[i][3] = new Vector2f((x * tileSize)/((float)width), ((y + 1) * tileSize)/((float)height));
+			texCoords[i][0] = new Vector2f((x * tileSize), (y * tileSize));
+			texCoords[i][1] = new Vector2f(((x + 1) * tileSize) - 1, (y * tileSize));
+			texCoords[i][2] = new Vector2f(((x + 1) * tileSize) - 1, ((y + 1) * tileSize) - 1);
+			texCoords[i][3] = new Vector2f((x * tileSize), ((y + 1) * tileSize) - 1);
 		}
 	}
 	
@@ -81,6 +82,14 @@ public class TileSet {
 	
 	public void bind() {
 		texture.bind();
+	}
+	
+	public int getTilesX() {
+		return tilesX;
+	}
+	
+	public int getTilesY() {
+		return tilesY;
 	}
 	
 	//Loading Tilesets
@@ -112,7 +121,6 @@ public class TileSet {
 				FileChannel fc = raf.getChannel();
 				
 				fc.read(buffer);
-				
 				buffer.flip();
 				
 				short width = buffer.getShort();
@@ -120,7 +128,7 @@ public class TileSet {
 				
 				fc.close();
 				
-				Texture texture = new Texture(files[i].getPath());
+				Texture texture = new Texture(GL31.GL_TEXTURE_RECTANGLE, files[i].getPath());
 				
 				TextureLibrary.registerTexture("TileSet_" + i, texture);
 				tileSets.add(new TileSet("TileSet_" + i, width, height));
