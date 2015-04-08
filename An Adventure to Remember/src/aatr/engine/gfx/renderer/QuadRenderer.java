@@ -15,6 +15,10 @@ public class QuadRenderer extends Renderer {
 		this(x, y, width, height, TextureLibrary.DEFAULT_TEXTURE);
 	}
 	
+	public QuadRenderer(float x, float y, float width, float height, int hint) {
+		this(x, y, width, height, TextureLibrary.DEFAULT_TEXTURE, hint);
+	}
+	
 	public QuadRenderer(float x, float y, float width, float height, Texture texture) {
 		super(new Mesh(new Vertex[]{
 				new Vertex(0, 0, 0, 0),
@@ -24,4 +28,12 @@ public class QuadRenderer extends Renderer {
 		}).setMode(GL11.GL_QUADS), texture, new Transform(x, y));
 	}
 	
+	public QuadRenderer(float x, float y, float width, float height, Texture texture, int hint) {
+		super(new Mesh(new Vertex[]{
+				new Vertex(0, 0, 0, 0),
+				new Vertex(width, 0, 1, 0),
+				new Vertex(width, height, 1, 1),
+				new Vertex(0, height, 0, 1)
+		}, hint).setMode(GL11.GL_QUADS), texture, new Transform(x, y));
+	}
 }

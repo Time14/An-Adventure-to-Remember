@@ -1,5 +1,7 @@
 package aatr.engine.world.entity;
 
+import org.lwjgl.opengl.GL15;
+
 import aatr.engine.ai.Direction;
 import aatr.engine.ai.PawnController;
 import aatr.engine.debug.Debug;
@@ -36,7 +38,7 @@ public class Entity {
 	protected Direction faceDirection;
 	
 	public Entity(GameStateWorld gameState) {
-		this(gameState, new QuadRenderer(0, 0, World.GRID_SIZE, World.GRID_SIZE));
+		this(gameState, new QuadRenderer(0, 0, World.GRID_SIZE, World.GRID_SIZE, GL15.GL_DYNAMIC_DRAW));
 	}
 	
 	public Entity(GameStateWorld gameState, Renderer renderer) {
